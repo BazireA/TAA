@@ -1,0 +1,1897 @@
+/*C8*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+DISCONNECT
+/*C9*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C10*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C11*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C12*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C13*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C16*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C17*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C18*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C19*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C20*/SET SCHEMA PUBLIC
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C22*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C23*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C24*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C25*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+DISCONNECT
+/*C26*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C27*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C28*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(0,30,'chanson01')
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+DISCONNECT
+/*C29*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint not null, duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C30*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+DISCONNECT
+/*C31*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C32*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+DISCONNECT
+/*C33*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+DISCONNECT
+/*C34*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+DISCONNECT
+/*C35*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C39*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C40*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C41*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C42*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C43*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO LISTECHANSON_CHANSON VALUES(0,1)
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C44*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,40,'chanson02')
+COMMIT
+DISCONNECT
+/*C45*/SET SCHEMA PUBLIC
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB11F13E3
+alter table ListeChanson_Chanson drop constraint FK8C4C8A3AB494E671
+alter table Parcours drop constraint FK49CA41A9270AD374
+alter table Personne_Personne drop constraint FKE605DADFD8F93667
+alter table Personne_Personne drop constraint FKE605DADFF52DD131
+alter table PointGPS_Parcours drop constraint FK2BBA972E404C2A51
+alter table PointGPS_Parcours drop constraint FK2BBA972EDDAB9C11
+alter table Seance drop constraint FK935F42C1B494E671
+alter table Seance drop constraint FK935F42C163BA3463
+alter table Seance drop constraint FK935F42C1DDAB9C11
+alter table Seance drop constraint FK935F42C16415D343
+alter table Seance_Personne drop constraint FK5B303AAB8FA36D1
+alter table Seance_Personne drop constraint FK5B303AAF52DD131
+drop table Chanson if exists
+drop table ListeChanson if exists
+drop table ListeChanson_Chanson if exists
+drop table Meteo if exists
+drop table Parcours if exists
+drop table Personne if exists
+drop table Personne_Personne if exists
+drop table PointGPS if exists
+drop table PointGPS_Parcours if exists
+drop table Seance if exists
+drop table Seance_Personne if exists
+drop table TypeSport if exists
+create table Chanson (id bigint generated by default as identity (start with 1), duree integer not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson (id bigint not null, nom varchar(255) not null, primary key (id))
+create table ListeChanson_Chanson (listeChanson_id bigint not null, chanson_id bigint not null, primary key (listeChanson_id, chanson_id))
+create table Meteo (id bigint not null, primary key (id))
+create table Parcours (id bigint not null, champion_id bigint, primary key (id))
+create table Personne (id bigint not null, adresseMail varchar(255), compteFacebook varchar(255), nom varchar(255), prenom varchar(255), primary key (id))
+create table Personne_Personne (Personne_id bigint not null, amis_id bigint not null, primary key (Personne_id, amis_id), unique (amis_id))
+create table PointGPS (id bigint not null, x integer not null, y integer not null, z integer not null, primary key (id))
+create table PointGPS_Parcours (pointGPS_id bigint not null, parcours_id bigint not null, primary key (pointGPS_id, parcours_id))
+create table Seance (id bigint not null, calorie integer not null, distance integer not null, duree integer not null, objectif integer not null, rythmeCardiaque integer not null, vitesse integer not null, listeChanson_id bigint, meteo_id bigint, parcours_id bigint not null, typeSport_id bigint not null, primary key (id))
+create table Seance_Personne (seance_id bigint not null, personne_id bigint not null, primary key (seance_id, personne_id))
+create table TypeSport (id bigint not null, primary key (id))
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB11F13E3 foreign key (chanson_id) references Chanson
+alter table ListeChanson_Chanson add constraint FK8C4C8A3AB494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Parcours add constraint FK49CA41A9270AD374 foreign key (champion_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFD8F93667 foreign key (amis_id) references Personne
+alter table Personne_Personne add constraint FKE605DADFF52DD131 foreign key (Personne_id) references Personne
+alter table PointGPS_Parcours add constraint FK2BBA972E404C2A51 foreign key (pointGPS_id) references PointGPS
+alter table PointGPS_Parcours add constraint FK2BBA972EDDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C1B494E671 foreign key (listeChanson_id) references ListeChanson
+alter table Seance add constraint FK935F42C163BA3463 foreign key (meteo_id) references Meteo
+alter table Seance add constraint FK935F42C1DDAB9C11 foreign key (parcours_id) references Parcours
+alter table Seance add constraint FK935F42C16415D343 foreign key (typeSport_id) references TypeSport
+alter table Seance_Personne add constraint FK5B303AAB8FA36D1 foreign key (seance_id) references Seance
+alter table Seance_Personne add constraint FK5B303AAF52DD131 foreign key (personne_id) references Personne
+INSERT INTO PERSONNE VALUES(0,NULL,NULL,NULL,NULL)
+DELETE FROM PERSONNE WHERE ID=0
+INSERT INTO PERSONNE VALUES(0,'email','facebook','nom','prenom')
+COMMIT
+INSERT INTO LISTECHANSON VALUES(0,'liste01')
+INSERT INTO CHANSON VALUES(1,30,'chanson01')
+COMMIT
+INSERT INTO CHANSON VALUES(2,40,'chanson02')
+COMMIT
+DELETE FROM CHANSON WHERE ID=1
+COMMIT
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+DISCONNECT
