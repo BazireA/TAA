@@ -21,8 +21,9 @@ public class Main {
 			// Work with the EM
 			// Can create entity
 			
-			PersonService ps =new PersonServiceImpl(em);
-			ps.createPerson("nom", "prenom","email", "facebook");
+			
+			PersonService ps = new PersonServiceImpl(em);
+			ps.creerPersonne("nom", "prenom","email", "facebook");
 			
 			ListeChansonService lc = new ListeChansonServiceImpl(em);
 			lc.creerListeChanson("liste01");
@@ -35,6 +36,7 @@ public class Main {
 			chanson2.creerChanson("chanson02", 40);
 			
 			chanson2.supprimerChanson("chanson01");
+			
 			
 			//....
 			// Begin a transaction

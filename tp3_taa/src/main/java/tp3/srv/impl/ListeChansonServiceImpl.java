@@ -10,66 +10,90 @@ import tp3.Chanson;
 import tp3.ListeChanson;
 import tp3.srv.ListeChansonService;
 
-public class ListeChansonServiceImpl implements ListeChansonService{
+public class ListeChansonServiceImpl implements ListeChansonService {
 
-	private EntityManager em;
+	private EntityManager entityManager;
 
 	
-	public ListeChansonServiceImpl(EntityManager em) {
+	public ListeChansonServiceImpl(EntityManager entityManager) {
 		super();
-		this.setEm(em);
-	}
-	
-
-	public EntityManager getEm() {
-		return em;
+		this.setEntityManager(entityManager);
 	}
 
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
 
-	public void setEm(EntityManager em) {
-		this.em = em;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 
-	public void creerListeChanson(String nom) {
-		ListeChanson chanson = new ListeChanson(nom);
-		em.persist(chanson);
-	}
-	
-	public void ajouterChanson(String nomListe, Chanson chanson) {
-		
-		Query q = em.createQuery ("SELECT a FROM ListeChanson as a where a.nom=:toto");
-		q.setParameter("toto", nomListe);
-		List<ListeChanson> results = q.getResultList();
-
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		results.get(0).addChanson(chanson);
-		t.commit();
-	}
-
-
-	
-	
 	
 	private ListeChanson getListeChanson(String nomListe){
-		Query q = em.createQuery ("SELECT a FROM ListeChanson as a where a.nom=:toto");
-		q.setParameter("toto", nomListe);
-		List<ListeChanson> results = q.getResultList();
+		Query query = entityManager.createQuery ("SELECT listesChansons FROM ListeChanson as listesChansons where listesChansons.nom=:p_nomListe");
+		query.setParameter("p_nomListe", nomListe);
 		
-		return results.get(0);
+		@SuppressWarnings("unchecked")
+		List<ListeChanson> results = query.getResultList();
+		
+		if(!results.isEmpty())
+			return results.get(0);
+		else
+			return null;
+	}
+	
+	
+	
+	public void creerListeChanson(String nom) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		ListeChanson chanson = new ListeChanson(nom);
+		entityManager.persist(chanson);
+		
+		transaction.commit();
+	}
+
+	
+	public void modifierNomListe(String nomListe, String nouveauNom) {
+		ListeChanson listeChanson = getListeChanson(nomListe);
+
+		if(listeChanson != null){
+			EntityTransaction transaction = entityManager.getTransaction();
+			transaction.begin();
+			
+			listeChanson.setNom(nouveauNom);
+			
+			transaction.commit();
+		}
 	}
 
 	
 	public void supprimerChanson(String nomListe, Chanson chanson) {
 		ListeChanson listeChanson = getListeChanson(nomListe);
 
-		listeChanson.removeChanson(chanson);
+		if(listeChanson != null){
+			EntityTransaction transaction = entityManager.getTransaction();
+			transaction.begin();
+			
+			listeChanson.removeChanson(chanson);
+			
+			transaction.commit();
+		}
 	}
-
-	public void modifierNomListe(String nomListe, String nouveauNom) {
+	
+	
+	public void ajouterChanson(String nomListe, Chanson chanson) {		
 		ListeChanson listeChanson = getListeChanson(nomListe);
 
-		listeChanson.setNom(nouveauNom);
+		if(listeChanson != null) {
+			EntityTransaction transaction = entityManager.getTransaction();
+			transaction.begin();
+			
+			listeChanson.addChanson(chanson);
+			
+			transaction.commit();
+		}
 	}
 }

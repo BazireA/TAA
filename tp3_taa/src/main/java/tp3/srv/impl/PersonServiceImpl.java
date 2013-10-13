@@ -12,39 +12,74 @@ import tp3.srv.PersonService;
 
 public class PersonServiceImpl implements PersonService{
 
-	private EntityManager em;
+	private EntityManager entityManager;
 	
-	public PersonServiceImpl(EntityManager em) {
+	
+	public PersonServiceImpl(EntityManager entityManager) {
 		super();
-		this.setEm(em);
+		this.setEntityManager(entityManager);
+	}
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
-	public void createPerson(String name,String prenom,String email,String facebook) {
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		Personne e1 = new Personne();
-		em.persist(e1);
-		e1.setNom(name);
-		e1.setPrenom(prenom);
-		e1.setAdresseMail(email);
-		e1.setCompteFacebook(facebook);	
-		t.commit();
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
+	
 
-	public Collection<Personne> rechercherAmi(String name) {
-		Query q = em.createQuery ("SELECT a FROM Personne as a where name=:toto");
-		q.setParameter("toto", name);
-		List<Personne> results = q.getResultList();
+	
+	private Personne getPersonne(String nom){
+		Query query = entityManager.createQuery ("SELECT personnes FROM Personne as personnes where personnes.name=:p_name");
+		query.setParameter("p_name", nom);
 		
-		return results.get(0).getAmis();
+		@SuppressWarnings("unchecked")
+		List<Personne> results = query.getResultList();
+		
+		if(!results.isEmpty())
+			return results.get(0);
+		else
+			return null;
 	}
 
-	public EntityManager getEm() {
-		return em;
+	
+	
+	public void creerPersonne(String nom, String prenom, String email, String facebook) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Personne personne = new Personne();
+		entityManager.persist(personne);
+		personne.setNom(nom);
+		personne.setPrenom(prenom);
+		personne.setAdresseMail(email);
+		personne.setCompteFacebook(facebook);
+		
+		transaction.commit();
+	}
+	
+	
+	public void modifierPersonne(String nom, String nouveauNom, String nouveauPrenom, String nouvelEmail, String nouveauFacebook) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Personne personne = getPersonne(nom);
+		personne.setNom(nouveauNom);
+		personne.setPrenom(nouveauPrenom);
+		personne.setAdresseMail(nouvelEmail);
+		personne.setCompteFacebook(nouveauFacebook);
+		
+		transaction.commit();
 	}
 
-	public void setEm(EntityManager em) {
-		this.em = em;
+	
+	public Collection<Personne> rechercherAmi(String nom) {
+		Personne personne = getPersonne(nom);
+		
+		if(personne != null)
+			return personne.getAmis();
+		else
+			return null;
 	}
-
 }

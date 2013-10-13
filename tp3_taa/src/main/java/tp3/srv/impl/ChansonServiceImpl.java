@@ -12,49 +12,54 @@ import tp3.srv.ChansonService;
 
 public class ChansonServiceImpl implements ChansonService {
 
-	private EntityManager em;
+	private EntityManager entityManager;
 	
 	
-	public ChansonServiceImpl(EntityManager em) {
+	public ChansonServiceImpl(EntityManager entityManager) {
 		super();
-		this.setEm(em);
+		this.setEntityManager(entityManager);
 	}
 	
-
-	public EntityManager getEm() {
-		return em;
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
-
-	public void setEm(EntityManager em) {
-		this.em = em;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 	
 	
 	
 	public Chanson creerChanson(String nom, int duree) {
-		EntityTransaction t = em.getTransaction();
-		t.begin();
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
 		
 		Chanson chanson = new Chanson();
 		chanson.setNom(nom);
 		chanson.setDuree(duree);
-		em.persist(chanson);
-		t.commit();
+		entityManager.persist(chanson);
+		
+		transaction.commit();
 		
 		return chanson;
 	}
 
-	public void supprimerChanson(String nom) {
-		EntityTransaction t = em.getTransaction();
-		t.begin();
+	
+	public void supprimerChanson(String nom) {		
+		Query query = entityManager.createQuery ("SELECT chansons FROM Chanson as chansons where chansons.nom=:p_nom");
+		query.setParameter("p_nom", nom);
 		
-		Query q = em.createQuery ("SELECT a FROM Chanson as a where a.nom=:toto");
-		q.setParameter("toto", nom);
-		List<Chanson> results = q.getResultList();
-		em.remove(results.get(0));
+		@SuppressWarnings("unchecked")
+		List<Chanson> results = query.getResultList();
 		
-		t.commit();
+		if(!results.isEmpty()) {
+			EntityTransaction transaction = entityManager.getTransaction();
+			transaction.begin();
+			
+			entityManager.remove(results.get(0));
+		
+			transaction.commit();
+		}
 	}
 
 }
