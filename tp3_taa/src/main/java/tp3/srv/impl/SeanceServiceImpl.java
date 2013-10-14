@@ -3,6 +3,7 @@ package tp3.srv.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -31,7 +32,7 @@ public class SeanceServiceImpl implements SeanceService {
 	
 	@GET @Path("afficher/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	private Seance getSeance(@PathParam("id") long id) {
+	public Seance getSeance(@PathParam("id") long id) {
 		Query query = entityManager.createQuery ("SELECT seances FROM Seance as seances where seances.id=:p_id");
 		query.setParameter("p_id", id);
 		
@@ -150,8 +151,9 @@ public class SeanceServiceImpl implements SeanceService {
 		transaction.commit();
 	}
 
-	@POST @Path("modifierMeteo/{id}/{meteo}")
-	public void definirMeteo(@PathParam("id") long id, @PathParam("meteo") Meteo meteo) {
+	@POST @Path("modifierMeteo/{id}")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public void definirMeteo(@PathParam("id") long id, Meteo meteo) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		

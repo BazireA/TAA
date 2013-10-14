@@ -52,8 +52,7 @@ public class ChansonServiceImpl implements ChansonService {
 		return chanson;
 	}
 
-	 @DELETE @Path("delete/{nom}")
-	//    @Produces({ MediaType.APPLICATION_JSON })   
+	@DELETE @Path("delete/{nom}")
 	public void supprimerChanson(@PathParam("nom")  String nom) {		
 		Query query = entityManager.createQuery ("SELECT chansons FROM Chanson as chansons where chansons.nom=:p_nom");
 		query.setParameter("p_nom", nom);
