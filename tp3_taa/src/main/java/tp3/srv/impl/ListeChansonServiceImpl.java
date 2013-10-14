@@ -30,7 +30,7 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 
 
 	
-	private ListeChanson getListeChanson(String nomListe){
+	public ListeChanson getListeChanson(String nomListe){
 		Query query = entityManager.createQuery ("SELECT listesChansons FROM ListeChanson as listesChansons where listesChansons.nom=:p_nomListe");
 		query.setParameter("p_nomListe", nomListe);
 		

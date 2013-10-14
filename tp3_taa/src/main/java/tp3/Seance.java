@@ -2,6 +2,8 @@ package tp3;
 import java.util.Set;
 import java.util.HashSet;
 
+import javax.persistence.CascadeType;
+
 
 /**
  * <br>
@@ -21,7 +23,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.Column(nullable = false)
+	@javax.persistence.Column(nullable = true)
 	protected int duree;
 	/**
 	 * <br>
@@ -31,7 +33,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.Column(nullable = false)
+	@javax.persistence.Column(nullable = true)
 	protected int distance;
 	/**
 	 * <br>
@@ -41,7 +43,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.Column(nullable = false)
+	@javax.persistence.Column(nullable = true)
 	protected int vitesse;
 	/**
 	 * <br>
@@ -51,7 +53,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.Column(nullable = false)
+	@javax.persistence.Column(nullable = true)
 	protected int calorie;
 	/**
 	 * <br>
@@ -61,7 +63,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.Column(nullable = false)
+	@javax.persistence.Column(nullable = true)
 	protected int rythmeCardiaque;
 	/**
 	 * <br>
@@ -71,7 +73,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.Column(nullable = false)
+	@javax.persistence.Column(nullable = true)
 	protected int objectif;
 	/**
 	 * <!-- begin-user-doc -->
@@ -80,8 +82,8 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.ManyToOne
-	@javax.persistence.JoinColumn(nullable = false)
+	@javax.persistence.ManyToOne(cascade=CascadeType.PERSIST)
+	@javax.persistence.JoinColumn(nullable = true)
 	protected Parcours parcours;
 	/**
 	 * <br>
@@ -91,7 +93,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.ManyToOne
+	@javax.persistence.ManyToOne(cascade=CascadeType.PERSIST)
 	protected ListeChanson listeChanson;
 	/**
 	 * <!-- begin-user-doc -->
@@ -100,8 +102,8 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.ManyToOne
-	@javax.persistence.JoinColumn(nullable = false)
+	@javax.persistence.ManyToOne(cascade=CascadeType.PERSIST)
+	@javax.persistence.JoinColumn(nullable = true)
 	protected TypeSport typeSport;
 	/**
 	 * <!-- begin-user-doc -->
@@ -110,7 +112,7 @@ public class Seance
 	 * @ordered
 	 */
 	
-	@javax.persistence.OneToOne
+	@javax.persistence.OneToOne(cascade=CascadeType.PERSIST)
 	protected Meteo meteo;
 	/**
 	 * <!-- begin-user-doc -->
@@ -128,7 +130,7 @@ public class Seance
 	 * @ordered
 	 */
 	@javax.persistence.Id
-	@javax.persistence.Column(nullable = false)
+	@javax.persistence.Column(nullable = true)
 	protected final Long id = 0L;
 	/**
 	 * <!-- begin-user-doc -->
