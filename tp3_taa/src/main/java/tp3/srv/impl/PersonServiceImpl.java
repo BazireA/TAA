@@ -6,31 +6,32 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
+import tp3.EntityMan;
 import tp3.Personne;
 import tp3.srv.PersonService;
 
+@Path("/personnes")
 public class PersonServiceImpl implements PersonService{
 
 	private EntityManager entityManager;
 	
 	
-	public PersonServiceImpl(EntityManager entityManager) {
-		super();
-		this.setEntityManager(entityManager);
-	}
-	
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
+	public PersonServiceImpl() {
+		entityManager = EntityMan.getInstance();
 	}
 	
 
-	
-	private Personne getPersonne(String nom){
+	@GET @Path("afficher/{nom}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Personne getPersonne(@PathParam("nom") String nom){
 		Query query = entityManager.createQuery ("SELECT personnes FROM Personne as personnes where personnes.name=:p_name");
 		query.setParameter("p_name", nom);
 		
@@ -44,8 +45,8 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	
-	
-	public void creerPersonne(String nom, String prenom, String email, String facebook) {
+	@PUT @Path("creer/{nom}")
+	public void creerPersonne(@PathParam("nom") String nom, @PathParam("prenom") String prenom, @PathParam("email") String email, @PathParam("facebook") String facebook) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -60,7 +61,8 @@ public class PersonServiceImpl implements PersonService{
 	}
 	
 	
-	public void modifierPersonne(String nom, String nouveauNom, String nouveauPrenom, String nouvelEmail, String nouveauFacebook) {
+	@POST @Path("modifier/{nom}/{nouveauNom}/{nouveauPrenom}/{nouvelEmail}/{nouveauFacebook}")
+	public void modifierPersonne(@PathParam("nom") String nom, @PathParam("nouveauNom") String nouveauNom, @PathParam("nouveauPrenom")String nouveauPrenom, @PathParam("nouvelEmail")String nouvelEmail, @PathParam("nouveauFacebook")String nouveauFacebook) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -74,7 +76,9 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	
-	public Collection<Personne> rechercherAmi(String nom) {
+	@GET @Path("rechercheAmis/{nom}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Collection<Personne> rechercherAmi(@PathParam("nom") String nom) {
 		Personne personne = getPersonne(nom);
 		
 		if(personne != null)

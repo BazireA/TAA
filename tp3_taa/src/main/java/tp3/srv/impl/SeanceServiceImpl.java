@@ -3,7 +3,15 @@ package tp3.srv.impl;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
+import tp3.EntityMan;
 import tp3.ListeChanson;
 import tp3.Meteo;
 import tp3.Parcours;
@@ -11,27 +19,19 @@ import tp3.Seance;
 import tp3.TypeSport;
 import tp3.srv.SeanceService;
 
+@Path("/seances")
 public class SeanceServiceImpl implements SeanceService {
 
-private EntityManager entityManager;
+	private EntityManager entityManager;
 
 	
-	public SeanceServiceImpl(EntityManager entityManager) {
-		super();
-		this.setEntityManager(entityManager);
-	}
-
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
+	public SeanceServiceImpl() {
+		entityManager = EntityMan.getInstance();
 	}
 	
-	
-	
-	private Seance getSeance(long id) {
+	@GET @Path("afficher/{id}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	private Seance getSeance(@PathParam("id") long id) {
 		Query query = entityManager.createQuery ("SELECT seances FROM Seance as seances where seances.id=:p_id");
 		query.setParameter("p_id", id);
 		
@@ -39,7 +39,7 @@ private EntityManager entityManager;
 	}
 	
 	
-	
+	@PUT @Path("creer")
 	public void creerSeance() {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
@@ -51,7 +51,8 @@ private EntityManager entityManager;
 	}
 
 	
-	public void modifierDuree(long id, int duree) {
+	@POST @Path("modifierDuree/{id}/{duree}")
+	public void modifierDuree(@PathParam("id") long id, @PathParam("duree") int duree) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -61,8 +62,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void modifierDistance(long id, int distance) {
+	@POST @Path("modifierDistance/{id}/{distance}")
+	public void modifierDistance(@PathParam("id") long id, @PathParam("distance") int distance) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -72,8 +73,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void modifierVitesse(long id, int vitesse) {
+	@POST @Path("modifierVitesse/{id}/{distance}")
+	public void modifierVitesse(@PathParam("id") long id, @PathParam("vitesse") int vitesse) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -83,8 +84,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void modifierCalorie(long id, int calorie) {
+	@POST @Path("modifierVitesse/{id}/{calorie}")
+	public void modifierCalorie(@PathParam("id") long id, @PathParam("calorie") int calorie) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -94,8 +95,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void modifierRythmeCardiaque(long id, int rythmeCardiaque) {
+	@POST @Path("modifierRythmeCardiaque/{id}/{rythmeCardiaque}")
+	public void modifierRythmeCardiaque(@PathParam("id") long id, @PathParam("rythmeCardiaque") int rythmeCardiaque) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -105,8 +106,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void modifierObjectif(long id, int objectif) {
+	@POST @Path("modifierObjectif/{id}/{objectif}")
+	public void modifierObjectif(@PathParam("id") long id, @PathParam("objectif") int objectif) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -116,8 +117,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void definirParcours(long id, Parcours parcours) {
+	@POST @Path("modifierParcours/{id}/{parcours}")
+	public void definirParcours(@PathParam("id") long id, @PathParam("parcours") Parcours parcours) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -127,8 +128,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void definirListeChanson(long id, ListeChanson listeChansons) {
+	@POST @Path("modifierListeChansons/{id}/{listeChansons}")
+	public void definirListeChanson(@PathParam("id") long id, @PathParam("listeChanson") ListeChanson listeChansons) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -138,8 +139,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void definirTypeDeSport(long id, TypeSport typeSport) {
+	@POST @Path("modifierTypeDeSport/{id}/{typeSport}")
+	public void definirTypeDeSport(@PathParam("id") long id, @PathParam("typeSport") TypeSport typeSport) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -149,8 +150,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void definirMeteo(long id, Meteo meteo) {
+	@POST @Path("modifierMeteo/{id}/{meteo}")
+	public void definirMeteo(@PathParam("id") long id, @PathParam("meteo") Meteo meteo) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -160,8 +161,8 @@ private EntityManager entityManager;
 		transaction.commit();
 	}
 
-	
-	public void supprimerSeance(long id) {
+	@POST @Path("modifierSeance/{id}")
+	public void supprimerSeance(@PathParam("id") long id) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		

@@ -24,22 +24,22 @@ public class Main {
 			// Can create entity
 			
 			
-			PersonService ps = new PersonServiceImpl(em);
+			PersonService ps = new PersonServiceImpl();
 			ps.creerPersonne("nom", "prenom","email", "facebook");
 			
-			ListeChansonService lc = new ListeChansonServiceImpl(em);
+			ListeChansonService lc = new ListeChansonServiceImpl();
 			lc.creerListeChanson("liste01");
 			
-			ChansonService chanson = new ChansonServiceImpl(em);
+			ChansonService chanson = new ChansonServiceImpl();
 			chanson.creerChanson("chanson01", 30);
 			//lc.ajouterChanson("liste01", chanson.creerChanson("chanson01", 30));
 			
-			ChansonService chanson2 = new ChansonServiceImpl(em);
+			ChansonService chanson2 = new ChansonServiceImpl();
 			chanson2.creerChanson("chanson02", 40);
 			
 			chanson2.supprimerChanson("chanson01");
 			
-			SeanceService s = new SeanceServiceImpl(em);
+			SeanceService s = new SeanceServiceImpl();
 			s.creerSeance();
 			s.definirListeChanson(0L, lc.getListeChanson("liste01"));
 			s.definirMeteo(0,new Meteo());
