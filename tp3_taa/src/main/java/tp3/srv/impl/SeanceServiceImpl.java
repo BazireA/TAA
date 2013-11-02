@@ -85,7 +85,7 @@ public class SeanceServiceImpl implements SeanceService {
 		transaction.commit();
 	}
 
-	@POST @Path("modifierVitesse/{id}/{calorie}")
+	@POST @Path("modifierCalorie/{id}/{calorie}")
 	public void modifierCalorie(@PathParam("id") long id, @PathParam("calorie") int calorie) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
@@ -119,7 +119,8 @@ public class SeanceServiceImpl implements SeanceService {
 	}
 
 	@POST @Path("modifierParcours/{id}/{parcours}")
-	public void definirParcours(@PathParam("id") long id, @PathParam("parcours") Parcours parcours) {
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public void definirParcours(@PathParam("id") long id, Parcours parcours) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -130,7 +131,8 @@ public class SeanceServiceImpl implements SeanceService {
 	}
 
 	@POST @Path("modifierListeChansons/{id}/{listeChansons}")
-	public void definirListeChanson(@PathParam("id") long id, @PathParam("listeChanson") ListeChanson listeChansons) {
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public void definirListeChanson(@PathParam("id") long id, ListeChanson listeChansons) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -141,7 +143,8 @@ public class SeanceServiceImpl implements SeanceService {
 	}
 
 	@POST @Path("modifierTypeDeSport/{id}/{typeSport}")
-	public void definirTypeDeSport(@PathParam("id") long id, @PathParam("typeSport") TypeSport typeSport) {
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public void definirTypeDeSport(@PathParam("id") long id, TypeSport typeSport) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		

@@ -7,19 +7,18 @@ import javax.persistence.Persistence;
 import tp3.srv.ChansonService;
 import tp3.srv.ListeChansonService;
 import tp3.srv.PersonService;
-import tp3.srv.SeanceService;
 import tp3.srv.impl.ChansonServiceImpl;
 import tp3.srv.impl.ListeChansonServiceImpl;
 import tp3.srv.impl.PersonServiceImpl;
-import tp3.srv.impl.SeanceServiceImpl;
 
 public class Main {
 
 		public static void main(String[] args){
 			// Use persistence.xml configuration
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("example");
+//			EntityManagerFactory emf = Persistence.createEntityManagerFactory("mysql-fouad");
 			// Retrieve an entity manager
-			EntityManager em = emf.createEntityManager();
+			EntityManager em = EntityMan.getInstance();
 			// Work with the EM
 			// Can create entity
 			
@@ -39,12 +38,6 @@ public class Main {
 			
 			chanson2.supprimerChanson("chanson01");
 			
-			SeanceService s = new SeanceServiceImpl();
-			s.creerSeance();
-			s.definirListeChanson(0L, lc.getListeChanson("liste01"));
-			s.definirMeteo(0,new Meteo());
-			s.definirParcours(0,new Parcours());
-			s.definirTypeDeSport(0,new TypeSport());
 			
 			//....
 			// Begin a transaction

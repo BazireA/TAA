@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -81,7 +82,8 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 	}
 
 	@DELETE @Path("delete/{nomListe}/{chanson}")
-	public void supprimerChanson(@PathParam("nomListe") String nomListe,@PathParam("chanson") Chanson chanson) {
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public void supprimerChanson(@PathParam("nomListe") String nomListe, Chanson chanson) {
 		ListeChanson listeChanson = getListeChanson(nomListe);
 
 		if(listeChanson != null){
@@ -95,7 +97,8 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 	}
 	
 	@POST @Path("ajouter/{nomListe}/{chanson}")
-	public void ajouterChanson(@PathParam("nomListe") String nomListe,@PathParam("chanson") Chanson chanson) {		
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public void ajouterChanson(@PathParam("nomListe") String nomListe, Chanson chanson) {		
 		ListeChanson listeChanson = getListeChanson(nomListe);
 
 		if(listeChanson != null) {
