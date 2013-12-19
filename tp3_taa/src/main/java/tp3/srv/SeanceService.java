@@ -1,13 +1,18 @@
 package tp3.srv;
 
+import java.util.List;
+
 import tp3.ListeChanson;
 import tp3.Meteo;
 import tp3.Parcours;
+import tp3.Seance;
 import tp3.TypeSport;
 
 public interface SeanceService {
 
-	public void creerSeance();
+	public long creerSeance();
+	public Seance getSeance(long id);
+	public List<Seance> getSeances();
 	public void modifierDuree(long id, int duree);
 	public void modifierDistance(long id, int distance);
 	public void modifierVitesse(long id, int vitesse);

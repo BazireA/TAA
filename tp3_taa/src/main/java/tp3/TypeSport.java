@@ -17,8 +17,19 @@ public class TypeSport
 	 * @generated
 	 * @ordered
 	 */
+	@javax.persistence.Column(nullable = true)
+	protected String nom;
+	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(nullable = false)
+	@javax.persistence.GeneratedValue
 	protected final Long id = 0L;
 	/**
 	 * <!-- begin-user-doc -->
@@ -39,5 +50,26 @@ public class TypeSport
 		return this.id;	
 	}
 	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	public String getNom() {
+		return this.nom;	
+	}
+	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	public void setNom(String myNom) {
+		this.nom = myNom;	
+	}
 }
 

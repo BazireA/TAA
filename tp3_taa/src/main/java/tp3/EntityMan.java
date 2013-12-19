@@ -24,8 +24,8 @@ public class EntityMan {
              if (EntityMan.instance == null) {
             	 
             	// Use persistence.xml configuration
-     			EntityManagerFactory emf = Persistence.createEntityManagerFactory("example");
-//    			EntityManagerFactory emf = Persistence.createEntityManagerFactory("mysql-fouad");
+//     			EntityManagerFactory emf = Persistence.createEntityManagerFactory("example");
+    			EntityManagerFactory emf = Persistence.createEntityManagerFactory("mysql-fouad");
      			// Retrieve an entity manager
      			EntityManager em = emf.createEntityManager();
             	 

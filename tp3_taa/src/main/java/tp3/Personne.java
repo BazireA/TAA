@@ -90,6 +90,7 @@ public class Personne
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(nullable = true)
+	@javax.persistence.GeneratedValue
 	protected final Long id = 0L;
 	/**
 	 * <!-- begin-user-doc -->

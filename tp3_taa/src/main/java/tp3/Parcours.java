@@ -19,6 +19,15 @@ public class Parcours
 	 * @generated
 	 * @ordered
 	 */
+	@javax.persistence.Column(nullable = false)
+	protected String nom;
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
 	
 	@javax.persistence.OneToOne
 	protected Personne champion;
@@ -39,6 +48,7 @@ public class Parcours
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(nullable = false)
+	@javax.persistence.GeneratedValue
 	protected final Long id = 0L;
 	/**
 	 * <!-- begin-user-doc -->
@@ -100,6 +110,29 @@ public class Parcours
 	public long getId() {
 		return this.id;	
 	}
+	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	public String getNom() {
+		return this.nom;	
+	}
+	
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	public void setNom(String myNom) {
+		this.nom = myNom;	
+	}
+	
 	
 	/**
 	 * <!-- begin-user-doc -->

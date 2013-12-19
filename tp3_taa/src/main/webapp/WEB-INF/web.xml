@@ -16,7 +16,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>jersey</servlet-name>
-        <url-pattern>/titi/*</url-pattern>
+        <url-pattern>/endomondolike/*</url-pattern>
     </servlet-mapping>
 </web-app>
 <!-- <web-app>

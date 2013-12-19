@@ -26,15 +26,6 @@ public class ChansonServiceImpl implements ChansonService {
 		entityManager = EntityMan.getInstance();
 	}
 	
-
-	/*public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}*/
-	
 	
 	@PUT @Path("creer/{nom}/{duree}")
 	@Produces({ MediaType.APPLICATION_JSON })

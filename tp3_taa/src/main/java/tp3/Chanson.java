@@ -51,7 +51,7 @@ public class Chanson
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(nullable = false)
-	@GeneratedValue
+	@javax.persistence.GeneratedValue
 	protected final Long id = 0L;
 	/**
 	 * <!-- begin-user-doc -->

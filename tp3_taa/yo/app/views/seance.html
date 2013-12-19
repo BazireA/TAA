@@ -1,0 +1,57 @@
+
+<div class="button-wrapper">
+    <a href="#/seances/add" class="a-btn">
+    <span class="a-btn-text">+</span>
+    <span class="a-btn-slide-text">Ajouter une s&eacute;ance</span>
+    </a>
+</div>
+
+
+
+<div ng-controller="SeanceController" ng-init="getSeances()">
+    <header class="codrops-header">
+      <h1>S&eacute;ances</h1>
+      <h2>Status : {{status}}</h2>
+    </header>
+    <ul class="grid cs-style-2">
+        <li ng-repeat="seance in seances">
+            <figure>
+                <div>
+                    <table>
+                        <tr>
+                            <td class="seance-preview-measure">
+                                <img src="images/distance-icon.png" alt="distance"/>
+                                {{seance.distance}} km
+                            </td>
+                            <td class="seance-preview-measure">
+                                <img src="images/stop-watch-icon.png" alt="durée" />
+                                {{seance.duree}} minutes
+                            </td>
+                            <td class="seance-preview-measure">
+                                <img src="images/speed-icon.png" alt="vitesse" />
+                                {{seance.vitesse}} km/h
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="seance-preview-measure">
+                                <img src="images/heart-rate-icon.png" alt="fréquence cardiaque" />
+                                {{seance.rythmeCardiaque}} bpm
+                            </td>
+                            <td class="seance-preview-measure">
+                                <img src="images/calories-icon.png" alt="calories" />
+                                {{seance.calorie}} kcal
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <figcaption>
+                    <h3>Sport</h3>
+                    <span>date</span>
+                    <a href="#/seances/edit">Modifier</a>
+                </figcaption>
+            </figure>
+        </li>
+    </ul>
+</div>
+
+

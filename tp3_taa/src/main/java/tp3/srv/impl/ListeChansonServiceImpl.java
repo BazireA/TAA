@@ -29,29 +29,24 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 	public ListeChansonServiceImpl() {
 		entityManager = EntityMan.getInstance();
 	}
-
-	/*public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}*/
-
 	
-	@GET @Path("afficher/{nomListe}")
+	
+	@SuppressWarnings("unchecked")
+	@GET @Path("afficher")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ListeChanson getListeChanson(@PathParam("nomListe") String nomListe){
-		Query query = entityManager.createQuery ("SELECT listesChansons FROM ListeChanson as listesChansons where listesChansons.nom=:p_nomListe");
-		query.setParameter("p_nomListe", nomListe);
+	public List<ListeChanson> getSeances() {
+		Query query = entityManager.createQuery ("SELECT listesChansons FROM ListeChanson as listesChansons");
+		return query.getResultList();
+	}
+	
+	
+	@GET @Path("afficher/{id}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public ListeChanson getListeChanson(@PathParam("id") long id){
+		Query query = entityManager.createQuery ("SELECT listesChansons FROM ListeChanson as listesChansons where listesChansons.id=:p_id");
+		query.setParameter("p_id", id);
 		
-		@SuppressWarnings("unchecked")
-		List<ListeChanson> results = query.getResultList();
-		
-		if(!results.isEmpty())
-			return results.get(0);
-		else
-			return null;
+		return (ListeChanson)query.getSingleResult();
 	}
 	
 	
@@ -67,47 +62,38 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 	}
 
 	
-	@POST @Path("modifier/{nomListe}/{nouveauNom}")
-	public void modifierNomListe(@PathParam("nomListe") String nomListe,@PathParam("nouveauNom") String nouveauNom) {
-		ListeChanson listeChanson = getListeChanson(nomListe);
+	@POST @Path("modifier/{id}/{nouveauNom}")
+	public void modifierNomListe(@PathParam("id") long id, @PathParam("nouveauNom") String nouveauNom) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
 
-		if(listeChanson != null){
-			EntityTransaction transaction = entityManager.getTransaction();
-			transaction.begin();
-			
-			listeChanson.setNom(nouveauNom);
-			
-			transaction.commit();
-		}
+		ListeChanson listeChanson = getListeChanson(id);
+		listeChanson.setNom(nouveauNom);
+		
+		transaction.commit();
 	}
 
-	@DELETE @Path("delete/{nomListe}/{chanson}")
+	@DELETE @Path("delete/{id}/{chanson}")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public void supprimerChanson(@PathParam("nomListe") String nomListe, Chanson chanson) {
-		ListeChanson listeChanson = getListeChanson(nomListe);
+	public void supprimerChanson(@PathParam("id") long id, Chanson chanson) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
 
-		if(listeChanson != null){
-			EntityTransaction transaction = entityManager.getTransaction();
-			transaction.begin();
-			
-			listeChanson.removeChanson(chanson);
-			
-			transaction.commit();
-		}
+		ListeChanson listeChanson = getListeChanson(id);
+		listeChanson.removeChanson(chanson);
+		
+		transaction.commit();
 	}
 	
-	@POST @Path("ajouter/{nomListe}/{chanson}")
+	@POST @Path("ajouter/{id}/{chanson}")
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public void ajouterChanson(@PathParam("nomListe") String nomListe, Chanson chanson) {		
-		ListeChanson listeChanson = getListeChanson(nomListe);
-
-		if(listeChanson != null) {
-			EntityTransaction transaction = entityManager.getTransaction();
-			transaction.begin();
-			
-			listeChanson.addChanson(chanson);
-			
-			transaction.commit();
-		}
+	public void ajouterChanson(@PathParam("id") long id, Chanson chanson) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		ListeChanson listeChanson = getListeChanson(id);
+		listeChanson.addChanson(chanson);
+		
+		transaction.commit();
 	}
 }

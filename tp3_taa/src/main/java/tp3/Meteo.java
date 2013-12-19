@@ -1,6 +1,7 @@
 package tp3;
 
 
+
 /**
  * <br>
  * <!-- begin-user-doc -->
@@ -11,6 +12,16 @@ package tp3;
 @javax.persistence.Entity
 public class Meteo
 {
+	public static final String[] tempsLibelles = {
+		"Soleil",
+		"Nuage",
+		"Brouillard",
+		"Pluie légère",
+		"Pluie forte",
+		"Orage",
+		"Apocalypse"
+	};
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
@@ -20,6 +31,21 @@ public class Meteo
 	
 	@javax.persistence.OneToOne(mappedBy = "meteo")
 	protected Seance seance;
+	
+
+	@javax.persistence.Column(nullable = true)
+	protected String temps;
+
+	@javax.persistence.Column(nullable = true)
+	protected int temperature;
+
+	@javax.persistence.Column(nullable = true)
+	protected int vent;
+
+	@javax.persistence.Column(nullable = true)
+	protected int uv;
+	
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
@@ -28,6 +54,7 @@ public class Meteo
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(nullable = false)
+	@javax.persistence.GeneratedValue
 	protected final Long id = 0L;
 	/**
 	 * <!-- begin-user-doc -->
@@ -101,6 +128,40 @@ public class Meteo
 		Seance oldseance = this.seance;
 		this.seance = null;
 		oldseance.unsetMeteo();	
+	}
+
+	
+	
+	public String getTemps() {
+		return temps;
+	}
+
+	public void setTemps(String temps) {
+		this.temps = temps;
+	}
+
+	public int getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(int temperature) {
+		this.temperature = temperature;
+	}
+
+	public int getVent() {
+		return vent;
+	}
+
+	public void setVent(int vent) {
+		this.vent = vent;
+	}
+
+	public int getUv() {
+		return uv;
+	}
+
+	public void setUv(int uv) {
+		this.uv = uv;
 	}
 	
 }

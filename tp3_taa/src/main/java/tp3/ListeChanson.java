@@ -52,6 +52,7 @@ public class ListeChanson
 	 */
 	@javax.persistence.Id
 	@javax.persistence.Column(nullable = false)
+	@javax.persistence.GeneratedValue
 	protected final Long id = 0L;
 	/**
 	 * <!-- begin-user-doc -->
