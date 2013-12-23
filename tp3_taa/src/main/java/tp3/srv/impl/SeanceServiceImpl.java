@@ -29,10 +29,58 @@ public class SeanceServiceImpl implements SeanceService {
 	private EntityManager entityManager;
 
 	
+	/******************************************************************\
+	 * Constructeur
+	\******************************************************************/
 	public SeanceServiceImpl() {
 		entityManager = EntityMan.getInstance();
 	}
+	/******************************************************************/
 	
+	
+	
+	
+	/******************************************************************\
+	 * Create
+	\******************************************************************/
+	@PUT @Path("creer")
+	public long creer() {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Seance seance = new Seance();
+		entityManager.persist(seance);
+		
+		transaction.commit();
+		
+		return seance.getId();
+
+	}
+	
+	@PUT @Path("creer/{distance}/{duree}/{vitesse}/{rythmeCardiaque}/{calorie}/{sport}/{playlist}/{meteo}/{parcours}")
+	public long creer(	@PathParam("distance") int distance,
+						@PathParam("duree") int duree,
+						@PathParam("vitesse") int vitesse,
+						@PathParam("rythmeCardiaque") int rythmeCardiaque,
+						@PathParam("calorie") int calorie,
+						@PathParam("sport") int sport,
+						@PathParam("playlist") int playlist,
+						@PathParam("meteo") String meteo,
+						@PathParam("parcours") int parcours) {
+		long id = creer();
+		
+		modifier(id, distance, duree, vitesse, rythmeCardiaque, calorie, sport, playlist, meteo, parcours);
+		
+		return id;
+	}
+	/******************************************************************/
+
+	
+	
+	
+	/******************************************************************\
+	 * Read
+	\******************************************************************/
 	@GET @Path("afficher/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Seance getSeance(@PathParam("id") long id) {
@@ -48,26 +96,28 @@ public class SeanceServiceImpl implements SeanceService {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Seance> getSeances() {
 		Query query = entityManager.createQuery ("SELECT seances FROM Seance as seances");
+		
 		return query.getResultList();
 	}
+	/******************************************************************/
 	
 	
-	@PUT @Path("creer")
-	public long creerSeance() {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		
-		Seance seance = new Seance();
-		entityManager.persist(seance);
-		
-		transaction.commit();
-		
-		return seance.getId();
-	}
-
 	
+	
+	/******************************************************************\
+	 * Update
+	\******************************************************************/
 	@POST @Path("modifier/{id}/{distance}/{duree}/{vitesse}/{rythmeCardiaque}/{calorie}/{sport}/{playlist}/{meteo}/{parcours}")
-	public void modifier(@PathParam("id") long id, @PathParam("distance") int distance, @PathParam("duree") int duree, @PathParam("vitesse") int vitesse, @PathParam("rythmeCardiaque") int rythmeCardiaque, @PathParam("calorie") int calorie, @PathParam("sport") int sport, @PathParam("playlist") int playlist, @PathParam("meteo") int meteo, @PathParam("parcours") int parcours) {
+	public void modifier(	@PathParam("id") long id,
+							@PathParam("distance") int distance,
+							@PathParam("duree") int duree,
+							@PathParam("vitesse") int vitesse,
+							@PathParam("rythmeCardiaque") int rythmeCardiaque,
+							@PathParam("calorie") int calorie,
+							@PathParam("sport") int sport,
+							@PathParam("playlist") int playlist,
+							@PathParam("meteo") String meteo,
+							@PathParam("parcours") int parcours) {
 		modifierDistance(id, distance);
 		modifierDuree(id, duree);
 		modifierVitesse(id, vitesse);
@@ -154,6 +204,7 @@ public class SeanceServiceImpl implements SeanceService {
 		transaction.commit();
 	}
 
+	
 	@POST @Path("modifierParcours/{id}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public void definirParcours(@PathParam("id") long id, Parcours parcours) {
@@ -201,9 +252,16 @@ public class SeanceServiceImpl implements SeanceService {
 		
 		transaction.commit();
 	}
+	/******************************************************************/
+	
 
-	@DELETE @Path("supprimerSeance/{id}")
-	public void supprimerSeance(@PathParam("id") long id) {
+	
+	
+	/******************************************************************\
+	 * Delete
+	\******************************************************************/
+	@DELETE @Path("supprimer/{id}")
+	public void supprimer(@PathParam("id") long id) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -212,4 +270,5 @@ public class SeanceServiceImpl implements SeanceService {
 		
 		transaction.commit();
 	}
+	/******************************************************************/
 }
