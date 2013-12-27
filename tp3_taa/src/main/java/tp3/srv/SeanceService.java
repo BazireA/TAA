@@ -20,7 +20,10 @@ public interface SeanceService {
 			int rythmeCardiaque, int calorie,
 			int sport,
 			int playlist,
-			String meteo,
+			int temps,
+			int temperature,
+			int vent,
+			int uv,
 			int parcours
 	);
 	
@@ -44,7 +47,10 @@ public interface SeanceService {
 			int calorie,
 			int sport,
 			int playlist,
-			String meteo,
+			int temps,
+			int temperature,
+			int vent,
+			int uv,
 			int parcours
 	);
 	

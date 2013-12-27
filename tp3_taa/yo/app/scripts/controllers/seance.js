@@ -15,8 +15,12 @@ angular.module('yoApp')
         return $http.get(urlBase + '/afficher');
     };
 
-    dataFactory.creerSeance = function () {
+    dataFactory.creer = function () {
         return $http.put(urlBase + '/creer');
+    };
+    
+    dataFactory.creer = function (distance, duree, vitesse, frequenceCardiaque, calorie, sport, playlist, temps, temperature, vent, uv, parcours) {
+        return $http.put(urlBase + '/creer/' + distance + '/' + duree + '/' + vitesse + '/' + frequenceCardiaque + '/' + calorie + '/' + sport + '/' + playlist + '/' + temps + '/' + temperature + '/' + vent + '/' + uv + '/' + parcours);
     };
 
     dataFactory.modifier = function (id, distance, duree, vitesse, frequenceCardiaque, calorie, sport, playlist, meteo, parcours) {
@@ -74,8 +78,8 @@ angular.module('yoApp')
 
 
 angular.module('yoApp')
-    .controller('SeanceController', ['$scope', 'seanceFactory', 'meteoFactory',
-        function ($scope, dataFactory, meteoFactory) {
+    .controller('SeanceController', ['$scope', 'seanceFactory',
+        function ($scope, dataFactory) {
     
         $scope.status;
         $scope.seances;
@@ -87,19 +91,27 @@ angular.module('yoApp')
         };
         
         
-        function verifierEtModifier(id, valeur, fonction, messageErreur) {
+        
+        function initialiserParametreInt(valeur) {
+            var result = 0;
+            
             if (valeur !== undefined) {
-                fonction(id, valeur)
-                    .success(function (ok) {
-                        $scope.status = 'Ok';
-                    })
-                    .error(function (error) {
-                        $scope.status = messageErreur;
-                        dataFactory.supprimerSeance(id);
-                        alert(error);
-                    });
+                result = valeur;
             }
+            
+            return result;
         }
+        
+        function initialiserParametreString(valeur) {
+            var result = '0';
+            
+            if ((valeur !== undefined) && (valeur !== '')) {
+                result = valeur;
+            }
+            
+            return result;
+        }
+        
         
         
         $scope.getSeances = function () {
@@ -115,63 +127,40 @@ angular.module('yoApp')
         
         
         $scope.creerSeance = function() {
-            dataFactory.creerSeance()
+            var distance = initialiserParametreInt($scope.distance);
+            var duree = initialiserParametreInt($scope.duree);
+            var vitesse = initialiserParametreInt($scope.vitesse);
+            var frequenceCardiaque = initialiserParametreInt($scope.frequenceCardiaque);
+            var calorie = initialiserParametreInt($scope.calorie);
+            
+            var sport = initialiserParametreString($scope.itemSelected.sport);
+            var playlist = initialiserParametreString($scope.itemSelected.playlist);
+            var temps = initialiserParametreString($scope.itemSelected.meteo);
+            var temperature = initialiserParametreInt($scope.temperature);
+            var vent = initialiserParametreInt($scope.vitesseVent);
+            var uv = initialiserParametreInt($scope.indiceUV);
+            var parcours = initialiserParametreString($scope.itemSelected.parcours);
+            
+            if (temps !== 0) {
+                temps--;
+            }
+            
+            dataFactory.creer(  distance,
+                                duree,
+                                vitesse,
+                                frequenceCardiaque,
+                                calorie,
+                                sport,
+                                playlist,
+                                temps,
+                                temperature,
+                                vent,
+                                uv,
+                                parcours)
                 .success(function (seance) {
                     $scope.status = 'Séance créée';
                     
-                    var distance = $scope.distance;
-                    var duree = $scope.duree;
-                    var vitesse = $scope.vitesse;
-                    var frequenceCardiaque = $scope.frequenceCardiaque;
-                    var calorie = $scope.calorie;
-                    
-                    var sport = $scope.itemSelected.sport;
-                    var playlist = $scope.itemSelected.playlist;
-                    var meteo = $scope.itemSelected.meteo;
-                    var parcours = $scope.itemSelected.parcours;
-                    
-                    //verifierEtModifier(seance, distance,dataFactory.modifierDistanceSeance, "La modification de la distance a échouée.");
-                    //verifierEtModifier(seance, duree, dataFactory.modifierDureeSeance, "La modification de la durée a échouée.");
-                    //verifierEtModifier(seance, vitesse, dataFactory.modifierVitesseSeance, "La modification de la vitesse a échouée.");
-                    //verifierEtModifier(seance, frequenceCardiaque, dataFactory.modifierRythmeCardiaqueSeance, "La modification de la fréquence cardiaque a échouée.");
-                    //verifierEtModifier(seance, calorie, dataFactory.modifierCalorieSeance, "La modification des calories a échouée.");
-                    
-                    //verifierEtModifier(seance, playlist, dataFactory.modifierDistanceSeance, "Erreur");
-                    //verifierEtModifier(seance, parcours, dataFactory.modifierDistanceSeance, "Erreur");
-                    //verifierEtModifier(seance, sport, dataFactory.modifierDistanceSeance, "Erreur");
-                    
-                    dataFactory.modifier(seance,
-                                         distance,
-                                         duree,
-                                         vitesse,
-                                         frequenceCardiaque,
-                                         calorie,
-                                         sport,
-                                         playlist,
-                                         meteo,
-                                         parcours)
-                    .success(function(seance) {
-                        $scope.status = 'Ok';
-                                                                    
-                        //var tempsSelectionne = $scope.itemSelected.meteo;
-                        //
-                        //meteoFactory.creerMeteo(tempsSelectionne)
-                        //    .success(function (meteo) {
-                        //        var temperature = $scope.temperature;
-                        //        var vitesseVent = $scope.vitesseVent;
-                        //        var indiceUV = $scope.indiceUV;
-                        //        
-                        //        
-                        //    })
-                        //    .error(function (error) {
-                        //    
-                        //    });
-                                            
-                        window.location = "#/seances";
-                    })
-                    .error(function (error) {
-                        $scope.status = 'Echec de la création de la séance';
-                    });
+                    window.location = "#/seances";
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de la création de la séance';

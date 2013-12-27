@@ -48,6 +48,7 @@ public class Seance
 	protected Parcours parcours;
 	
 	@ManyToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(nullable = true)
 	protected ListeChanson listeChanson;
 	
 	@ManyToOne(cascade=CascadeType.PERSIST)
@@ -55,6 +56,7 @@ public class Seance
 	protected TypeSport typeSport;
 	
 	@OneToOne(cascade=CascadeType.PERSIST)
+	@JoinColumn(nullable = true)
 	protected Meteo meteo;
 	
 	@ManyToMany
@@ -67,7 +69,7 @@ public class Seance
 	/******************************************************************\
 	 * Constructeur
 	\******************************************************************/
-	public Seance(){
+	public Seance() {
 		super();
 	}
 	/******************************************************************/

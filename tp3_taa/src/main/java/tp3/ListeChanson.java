@@ -1,8 +1,12 @@
 package tp3;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 /**
@@ -13,6 +17,7 @@ import javax.persistence.CascadeType;
  */
 
 @javax.persistence.Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ListeChanson
 {
 	/**
@@ -32,7 +37,7 @@ public class ListeChanson
 	 * @ordered
 	 */
 	
-	@javax.persistence.OneToMany(mappedBy = "listeChanson")
+	@javax.persistence.OneToMany(fetch=FetchType.LAZY, mappedBy = "listeChanson")
 	protected Set<Seance> seance;
 	/**
 	 * <br>
@@ -89,6 +94,7 @@ public class ListeChanson
 	 * @generated
 	 * @ordered
 	 */
+	@JsonIgnore
 	public Set<Seance> getSeance() {
 		if(this.seance == null) {
 				this.seance = new HashSet<Seance>();

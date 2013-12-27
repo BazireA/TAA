@@ -21,7 +21,10 @@ import tp3.Meteo;
 import tp3.Parcours;
 import tp3.Seance;
 import tp3.TypeSport;
+import tp3.srv.ListeChansonService;
+import tp3.srv.ParcoursService;
 import tp3.srv.SeanceService;
+import tp3.srv.TypeSportService;
 
 @Path("/seances")
 public class SeanceServiceImpl implements SeanceService {
@@ -57,7 +60,7 @@ public class SeanceServiceImpl implements SeanceService {
 
 	}
 	
-	@PUT @Path("creer/{distance}/{duree}/{vitesse}/{rythmeCardiaque}/{calorie}/{sport}/{playlist}/{meteo}/{parcours}")
+	@PUT @Path("creer/{distance}/{duree}/{vitesse}/{rythmeCardiaque}/{calorie}/{sport}/{playlist}/{temps}/{temperature}/{vent}/{uv}/{parcours}")
 	public long creer(	@PathParam("distance") int distance,
 						@PathParam("duree") int duree,
 						@PathParam("vitesse") int vitesse,
@@ -65,13 +68,43 @@ public class SeanceServiceImpl implements SeanceService {
 						@PathParam("calorie") int calorie,
 						@PathParam("sport") int sport,
 						@PathParam("playlist") int playlist,
-						@PathParam("meteo") String meteo,
-						@PathParam("parcours") int parcours) {
-		long id = creer();
+						@PathParam("temps") int temps,
+						@PathParam("temperature") int temperature,
+						@PathParam("vent") int vent,
+						@PathParam("uv") int uv,
+						@PathParam("parcours") int parcours) {		
+		EntityTransaction transaction = entityManager.getTransaction();
+
+		TypeSportService typeSportService = new TypeSportServiceImpl();
+		ListeChansonService playlistService = new ListeChansonServiceImpl();
+		ParcoursService parcoursService = new ParcoursServiceImpl();
 		
-		modifier(id, distance, duree, vitesse, rythmeCardiaque, calorie, sport, playlist, meteo, parcours);
+		transaction.begin();
 		
-		return id;
+		Seance seance = new Seance();
+		
+		Meteo newMeteo = new Meteo();
+		newMeteo.setTemps(Meteo.tempsLibelles[temps][1]);
+		newMeteo.setTemperature(temperature);
+		newMeteo.setVent(vent);
+		newMeteo.setUv(uv);
+		
+		seance.setDistance(distance);
+		seance.setDuree(duree);
+		seance.setVitesse(vitesse);
+		seance.setRythmeCardiaque(rythmeCardiaque);
+		seance.setCalorie(calorie);
+		
+		seance.setTypeSport(typeSportService.getTypeSport(sport));
+		seance.setListeChanson(playlistService.getListeChanson(playlist));
+		seance.setMeteo(newMeteo);
+		seance.setParcours(parcoursService.getParcours(parcours));
+		
+		entityManager.persist(seance);
+		
+		transaction.commit();
+		
+		return seance.getId();
 	}
 	/******************************************************************/
 
@@ -107,7 +140,7 @@ public class SeanceServiceImpl implements SeanceService {
 	/******************************************************************\
 	 * Update
 	\******************************************************************/
-	@POST @Path("modifier/{id}/{distance}/{duree}/{vitesse}/{rythmeCardiaque}/{calorie}/{sport}/{playlist}/{meteo}/{parcours}")
+	@POST @Path("modifier/{id}/{distance}/{duree}/{vitesse}/{rythmeCardiaque}/{calorie}/{sport}/{playlist}/{temps}/{temperature}/{vent}/{uv}/{parcours}")
 	public void modifier(	@PathParam("id") long id,
 							@PathParam("distance") int distance,
 							@PathParam("duree") int duree,
@@ -116,25 +149,36 @@ public class SeanceServiceImpl implements SeanceService {
 							@PathParam("calorie") int calorie,
 							@PathParam("sport") int sport,
 							@PathParam("playlist") int playlist,
-							@PathParam("meteo") String meteo,
+							@PathParam("temps") int temps,
+							@PathParam("temperature") int temperature,
+							@PathParam("vent") int vent,
+							@PathParam("uv") int uv,
 							@PathParam("parcours") int parcours) {
-		modifierDistance(id, distance);
-		modifierDuree(id, duree);
-		modifierVitesse(id, vitesse);
-		modifierRythmeCardiaque(id, rythmeCardiaque);
-		modifierCalorie(id, calorie);
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Seance seance = getSeance(id);
+		seance.setDistance(distance);
+		seance.setDuree(duree);
+		seance.setVitesse(vitesse);
+		seance.setRythmeCardiaque(rythmeCardiaque);
+		seance.setCalorie(calorie);
 		
 //		TypeSportService typeSportService = new TypeSportServiceImpl();
 //		definirTypeDeSport(id, typeSportService.getTypeSport(sport));
-//		
-//		ListeChansonService playlistService = new ListeChansonServiceImpl();
-//		definirListeChanson(id, playlistService.getListeChanson(playlist));
-//		
+		
+		ListeChansonService playlistService = new ListeChansonServiceImpl();
+		seance.setListeChanson(playlistService.getListeChanson(playlist));
+		
 //		MeteoService meteoService = new MeteoServiceImpl();
 //		definirMeteo(id, meteoService.getMeteo(meteo));
 //		
 //		ParcoursService parcoursService = new ParcoursServiceImpl();
 //		definirParcours(id, parcoursService.getParcours(parcours));
+		
+		entityManager.persist(seance);
+		
+		transaction.commit();
 	}
 	
 	

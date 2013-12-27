@@ -55,9 +55,9 @@
       </div>
       <div class="form-group">
         <label class="control-label">M&eacute;t&eacute;o :</label>
-        <div class="controls" ng-controller="MeteoController" ng-init="getTempsLibelles()">
-          <select class="form-control input-lg width-inherit" ng-model="itemSelected.meteo">
-            <option value={{tempsLibelle}} ng-repeat="tempsLibelle in tempsLibelles">{{tempsLibelle}}</option>
+        <div class="controls">
+          <select class="form-control input-lg width-inherit" ng-controller="MeteoController" ng-init="getTempsLibelles()" ng-model="itemSelected.meteo">
+            <option value={{tempsLibelle[0]}} ng-repeat="tempsLibelle in tempsLibelles">{{tempsLibelle[1]}}</option>
           </select>
           <div class="decale">
             <input type="number" min="-50" max="50" maxlength="3" size="3" class="form-control width-inherit display-inline" ng-model="temperature" /> °C
