@@ -24,11 +24,20 @@ public class MeteoServiceImpl implements MeteoService {
 	private EntityManager entityManager;
 	
 	
+	/******************************************************************\
+	 * Constructeur
+	\******************************************************************/
 	public MeteoServiceImpl() {
 		entityManager = EntityMan.getInstance();
 	}
+	/******************************************************************/
 	
 	
+	
+	
+	/******************************************************************\
+	 * Create
+	\******************************************************************/
 	@PUT @Path("creer/{temps}")
 	public long creerMeteo(@PathParam("temps") String temps) {
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -42,7 +51,14 @@ public class MeteoServiceImpl implements MeteoService {
 		
 		return meteo.getId();
 	}
+	/******************************************************************/
 
+	
+	
+	
+	/******************************************************************\
+	 * Read
+	\******************************************************************/
 	@GET @Path("afficher/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Meteo getMeteo(@PathParam("id") long id) {
@@ -64,10 +80,17 @@ public class MeteoServiceImpl implements MeteoService {
 
 	@GET @Path("tempsLibelles")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public String[] getTempsLibelles() {
+	public String[][] getTempsLibelles() {
 		return Meteo.tempsLibelles;
 	}
+	/******************************************************************/
+	
 
+	
+	
+	/******************************************************************\
+	 * Update
+	\******************************************************************/
 	@POST @Path("modifier/{id}/{temps}/{temperature}/{vent}/{uv}")
 	public void modifier(@PathParam("id") long id, @PathParam("temps") String temps, @PathParam("temperature") int temperature, @PathParam("vent") int vent, @PathParam("uv") int uv) {
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -81,7 +104,14 @@ public class MeteoServiceImpl implements MeteoService {
 		
 		transaction.commit();
 	}
+	/******************************************************************/
+	
+	
 
+	
+	/******************************************************************\
+	 * Delete
+	\******************************************************************/
 	@DELETE @Path("supprimerMeteo/{id}")
 	public void supprimerMeteo(@PathParam("id") long id) {
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -92,4 +122,5 @@ public class MeteoServiceImpl implements MeteoService {
 		
 		transaction.commit();
 	}
+	/******************************************************************/
 }

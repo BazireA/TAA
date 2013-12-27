@@ -1,76 +1,68 @@
 package tp3;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
-/**
- * <br>
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
-
-@javax.persistence.Entity
+@Entity
 public class Meteo
 {
-	public static final String[] tempsLibelles = {
-		"Soleil",
-		"Nuage",
-		"Brouillard",
-		"Pluie légère",
-		"Pluie forte",
-		"Orage",
-		"Apocalypse"
+	public static final String[][] tempsLibelles = {
+		{"1", "Soleil"},
+		{"2", "Nuage"},
+		{"3", "Brouillard"},
+		{"4", "Pluie légère"},
+		{"5", "Pluie forte"},
+		{"6", "Orage"},
+		{"7", "Apocalypse"}
 	};
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	@javax.persistence.OneToOne(mappedBy = "meteo")
-	protected Seance seance;
-	
 
-	@javax.persistence.Column(nullable = true)
+	
+	/******************************************************************\
+	 * Attributs
+	\******************************************************************/
+	@Id
+	@Column(nullable = false)
+	@GeneratedValue
+	protected final Long id = 0L;
+
+	@Column(nullable = true)
 	protected String temps;
 
-	@javax.persistence.Column(nullable = true)
+	@Column(nullable = true)
 	protected int temperature;
 
-	@javax.persistence.Column(nullable = true)
+	@Column(nullable = true)
 	protected int vent;
 
-	@javax.persistence.Column(nullable = true)
+	@Column(nullable = true)
 	protected int uv;
 	
+	@OneToOne(mappedBy = "meteo")
+	protected Seance seance;
+	/******************************************************************/
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	@javax.persistence.Id
-	@javax.persistence.Column(nullable = false)
-	@javax.persistence.GeneratedValue
-	protected final Long id = 0L;
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Meteo(){
+	
+	
+	
+	/******************************************************************\
+	 * Constructeur
+	\******************************************************************/
+	public Meteo() {
 		super();
 	}
+	/******************************************************************/
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+	
+	
+	/******************************************************************\
+	 * 
+	\******************************************************************/
 	public void basicSetSeance(Seance mySeance) {
 		if (this.seance != mySeance) {
 			if (mySeance != null){
@@ -83,45 +75,50 @@ public class Meteo
 			}
 		}	
 	}
+	/******************************************************************/
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public Seance getSeance() {
-		return this.seance;	
+	
+	
+	
+	/******************************************************************\
+	 * Getters
+	\******************************************************************/
+	public long getId() { return this.id; }
+	public String getTemps() { return temps; }
+	public int getTemperature() { return temperature; }
+	public int getVent() { return vent; }
+	public int getUv() { return uv; }
+	@JsonIgnore
+	public Seance getSeance() { return seance; }
+	/******************************************************************/
+	
+	
+	
+	
+	/******************************************************************\
+	 * Setters
+	\******************************************************************/
+	public void setTemps(String temps) {
+		this.temps = temps;
 	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public long getId() {
-		return this.id;	
+
+	public void setTemperature(int temperature) {
+		this.temperature = temperature;
 	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+
+	public void setVent(int vent) {
+		this.vent = vent;
+	}
+
+	public void setUv(int uv) {
+		this.uv = uv;
+	}
+
 	public void setSeance(Seance mySeance) {
 		this.basicSetSeance(mySeance);
 		mySeance.basicSetMeteo(this);
-			
 	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	public void unsetSeance() {
 		if (this.seance == null)
 			return;
@@ -129,40 +126,6 @@ public class Meteo
 		this.seance = null;
 		oldseance.unsetMeteo();	
 	}
-
-	
-	
-	public String getTemps() {
-		return temps;
-	}
-
-	public void setTemps(String temps) {
-		this.temps = temps;
-	}
-
-	public int getTemperature() {
-		return temperature;
-	}
-
-	public void setTemperature(int temperature) {
-		this.temperature = temperature;
-	}
-
-	public int getVent() {
-		return vent;
-	}
-
-	public void setVent(int vent) {
-		this.vent = vent;
-	}
-
-	public int getUv() {
-		return uv;
-	}
-
-	public void setUv(int uv) {
-		this.uv = uv;
-	}
-	
+	/******************************************************************/
 }
 
