@@ -459,6 +459,10 @@ table {
 	margin: 15px;
 }
 
+.button-figcaption {
+	margin-right: 10px;
+}
+
 .form-button-validate {
 	width: 80px;
 	margin: 40px auto auto;

@@ -43,10 +43,6 @@
 	color: #fff;
 }
 
-.grid figcaption span:before {
-	content: 'le ';
-}
-
 .grid figcaption a {
 	text-align: center;
 	padding: 5px 10px;
@@ -88,9 +84,8 @@
 }
 
 .cs-style-2 figcaption a {
-	position: absolute;
-	right: 20px;
-	top: 30px;
+	position: relative;
+	top: -15px;
 }
 
 

@@ -67,8 +67,8 @@ angular.module('yoApp')
         return $http.post(urlBase + '/modifierMeteo/' + id, meteo);
     };
 
-    dataFactory.supprimerSeance = function (id) {
-        return $http.delete(urlBase + '/supprimerSeance/' + id);
+    dataFactory.supprimer = function (id) {
+        return $http.delete(urlBase + '/supprimer/' + id);
     };
 
     return dataFactory;
@@ -165,5 +165,26 @@ angular.module('yoApp')
                 .error(function (error) {
                     $scope.status = 'Echec de la création de la séance';
                 });
+        }
+        
+        
+        $scope.supprimer = function(id) {
+            dataFactory.supprimer(id)
+                .success(function (result) {
+                    $scope.status = 'Séance supprimée';
+                    
+                    document.location.reload(true);
+                }) .error(function (error) {
+                    $scope.status = 'Echec de la suppression de la séance';
+                    
+                    alert("Echec de la suppression de la séance.");
+                });
+        }
+        
+        
+        $scope.modifier = function(id) {
+            window.location = "#/seances/edit";
+            $scope.distance = 20;
+            alert("Modifier");
         }
   }]);
