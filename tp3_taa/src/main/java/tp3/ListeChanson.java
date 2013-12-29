@@ -108,6 +108,7 @@ public class ListeChanson
 	 * @generated
 	 * @ordered
 	 */
+	@JsonIgnore
 	public Set<Chanson> getChanson() {
 		if(this.chanson == null) {
 				this.chanson = new HashSet<Chanson>();

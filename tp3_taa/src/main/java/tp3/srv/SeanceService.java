@@ -47,6 +47,7 @@ public interface SeanceService {
 			int calorie,
 			int sport,
 			int playlist,
+			int meteo,
 			int temps,
 			int temperature,
 			int vent,

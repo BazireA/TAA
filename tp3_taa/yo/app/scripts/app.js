@@ -12,11 +12,11 @@ angular.module('yoApp', ['ngCookies', 'ngResource', 'ngSanitize'])
         controller: 'SeanceController'
       })
       .when('/seances/add', {
-        templateUrl: 'views/seance-form.html',
+        templateUrl: 'views/seance-form-add.html',
         controller: 'SeanceController'
       })
-      .when('/seances/edit', {
-        templateUrl: 'views/seance-form.html',
+      .when('/seances/edit/:seanceId', {
+        templateUrl: 'views/seance-form-edit.html',
         controller: 'SeanceController'
       })
       .when('/parcours', {

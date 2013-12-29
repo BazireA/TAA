@@ -1,86 +1,76 @@
-
-<header class="codrops-header">
-  <h1>Enregistrement d'une s&eacute;ance</h1>
-  <h2>Status : {{status}}</h2>
-</header>
-
-<div id="form-panel">
-  <form ng-controller="SeanceController" ng-submit="creerSeance()">    
-    <div class="form-container">
-      <div class="form-group">
-        <label class="control-label">Sport :<br></label>
-        <div class="controls" ng-controller="SportController" ng-init="getSports()">
-          <select class="form-control input-lg width-inherit" ng-model="itemSelected.sport">
-            <option value={{sport.id}} ng-repeat="sport in sports" >{{sport.nom}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Distance :</label>
-        <div class="controls">
-          <input type="number" min="0" max="10000" maxlength="5" size="5" class="form-control width-inherit display-inline" ng-model="distance" /> km
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Dur&eacute;e :<br></label>
-        <div class="controls">
-          <input type="number" min="0" max="4320" maxlength="4" size="4" class="form-control width-inherit display-inline" ng-model="duree" /> minutes
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Vitesse :<br></label>
-        <div class="controls">
-          <input type="number" min="0" max="80" maxlength="2" size="2" class="form-control width-inherit display-inline" ng-model="vitesse" /> km/h
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Fr&eacute;quence cardiaque :</label>
-        <div class="controls">
-          <input type="number" min="50" max="200" maxlength="3" size="3" class="form-control width-inherit display-inline" ng-model="frequenceCardiaque" /> bpm
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Calorie :</label>
-        <div class="controls">
-          <input type="number" min="0" max="100000" maxlength="6" size="6" class="form-control width-inherit display-inline" ng-model="calorie" /> kcal
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Playlist :<br></label>
-        <div class="controls" ng-controller="PlaylistController" ng-init="getPlaylists()">
-          <select class="form-control input-lg width-inherit" ng-model="itemSelected.playlist">
-            <option value={{playlist.id}} ng-repeat="playlist in playlists">{{playlist.nom}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">M&eacute;t&eacute;o :</label>
-        <div class="controls">
-          <select class="form-control input-lg width-inherit" ng-controller="MeteoController" ng-init="getTempsLibelles()" ng-model="itemSelected.meteo">
-            <option value={{tempsLibelle[0]}} ng-repeat="tempsLibelle in tempsLibelles">{{tempsLibelle[1]}}</option>
-          </select>
-          <div class="decale">
-            <input type="number" min="-50" max="50" maxlength="3" size="3" class="form-control width-inherit display-inline" ng-model="temperature" /> °C
-            <input type="number" min="0" max="200" maxlength="3" size="3" class="form-control width-inherit display-inline" ng-model="vitesseVent" /> km/h
-            <input type="number" min="0" max="12" maxlength="2" size="2" class="form-control width-inherit display-inline" ng-model="indiceUV" /> indice UV
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Parcours :</label>
-        <div class="controls" ng-controller="ParcoursController" ng-init="getParcours()">
-            <select class="form-control input-lg width-inherit" ng-model="itemSelected.parcours">
-             <option value={{parcours.id}} ng-repeat="parcours in lesParcours">{{parcours.nom}}</option>
-           </select>
-        </div>
+ 
+<div class="form-container">
+  <div class="form-group">
+    <label class="control-label">Sport :<br></label>
+    <div class="controls" ng-controller="SportController" ng-init="getSports()">
+      <select class="form-control input-lg width-inherit"
+            ng-model="itemSelected.sport"
+            ng-options="sport.id as sport.nom for sport in sports">
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Distance :</label>
+    <div class="controls">
+      <input type="number" min="0" max="10000" maxlength="5" size="5" class="form-control width-inherit display-inline" ng-model="distance" /> km
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Dur&eacute;e :<br></label>
+    <div class="controls">
+      <input type="number" min="0" max="4320" maxlength="4" size="4" class="form-control width-inherit display-inline" ng-model="duree" /> minutes
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Vitesse :<br></label>
+    <div class="controls">
+      <input type="number" min="0" max="80" maxlength="2" size="2" class="form-control width-inherit display-inline" ng-model="vitesse" /> km/h
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Fr&eacute;quence cardiaque :</label>
+    <div class="controls">
+      <input type="number" min="50" max="200" maxlength="3" size="3" class="form-control width-inherit display-inline" ng-model="frequenceCardiaque" /> bpm
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Calorie :</label>
+    <div class="controls">
+      <input type="number" min="0" max="100000" maxlength="6" size="6" class="form-control width-inherit display-inline" ng-model="calorie" /> kcal
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Playlist :<br></label>
+    <div class="controls" ng-controller="PlaylistController" ng-init="getPlaylists()">
+      <select class="form-control input-lg width-inherit"
+          ng-model="itemSelected.playlist"
+          ng-options="playlist.id as playlist.nom for playlist in playlists">
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">M&eacute;t&eacute;o :</label>
+    <div class="controls">
+      <select class="form-control input-lg width-inherit"
+          ng-controller="MeteoController"
+          ng-init="getTempsLibelles()"
+          ng-model="itemSelected.meteo.temps"
+          ng-options="tempsLibelle[0] as tempsLibelle[1] for tempsLibelle in tempsLibelles">
+      </select>
+      <div class="decale">
+        <input type="number" min="-50" max="50" maxlength="3" size="3" class="form-control width-inherit display-inline" ng-model="temperature" /> °C
+        <input type="number" min="0" max="200" maxlength="3" size="3" class="form-control width-inherit display-inline" ng-model="vitesseVent" /> km/h
+        <input type="number" min="0" max="12" maxlength="2" size="2" class="form-control width-inherit display-inline" ng-model="indiceUV" /> indice UV
       </div>
     </div>
-    
-    
-    
-    
-    
-    
-    <input type="submit" class="form-button-validate" value="Valider" />
-  </form>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Parcours :</label>
+    <div class="controls" ng-controller="ParcoursController" ng-init="getParcours()">
+        <select class="form-control input-lg width-inherit"
+            ng-model="itemSelected.parcours"
+            ng-options="parcours.id as parcours.nom for parcours in lesParcours">
+       </select>
+    </div>
+  </div>
 </div>

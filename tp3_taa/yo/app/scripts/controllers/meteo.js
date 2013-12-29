@@ -19,6 +19,10 @@ angular.module('yoApp')
         return $http.get(urlBase + '/tempsLibelles');
     };
 
+    dataFactory.getTempsIdByLibelle = function (libelle) {
+        return $http.get(urlBase + '/tempsId/' + libelle);
+    };
+
     dataFactory.creerMeteo = function (temps) {
         return $http.put(urlBase + '/creer/' + temps);
     };
@@ -43,7 +47,7 @@ angular.module('yoApp')
         $scope.status;
         
         
-        $scope.getTempsLibelles = function getTempsLibelles() {
+        $scope.getTempsLibelles = function() {
             dataFactory.getTempsLibelles()
                 .success(function (libelles) {
                     $scope.status = 'Ok';
@@ -51,6 +55,18 @@ angular.module('yoApp')
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de la récupération des libelles des temps';
+                });
+        }
+        
+        
+        $scope.getTempsIdByLibelle = function(libelle) {
+            dataFactory.getTempsIdByLibelle(libelle)
+                .success(function (id) {
+                    alert(id);
+                    return id;
+                })
+                .error(function (error) {
+                    alert("Echec de la récupération de l'id du temps");
                 });
         }
   }]);

@@ -83,6 +83,20 @@ public class MeteoServiceImpl implements MeteoService {
 	public String[][] getTempsLibelles() {
 		return Meteo.tempsLibelles;
 	}
+	
+	
+	@GET @Path("tempsId/{libelle}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public String getTempsId(@PathParam("libelle") String libelle) {
+		String result = "";
+		
+		for(String[] tmp : Meteo.tempsLibelles) {
+			if(libelle.equals(tmp[1]))
+				result = tmp[0];
+		}
+		
+		return result;
+	}
 	/******************************************************************/
 	
 
