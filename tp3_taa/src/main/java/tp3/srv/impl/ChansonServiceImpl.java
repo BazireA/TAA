@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -22,14 +24,23 @@ public class ChansonServiceImpl implements ChansonService {
 	private EntityManager entityManager;
 	
 	
+	/******************************************************************\
+	 * Constructeur
+	\******************************************************************/
 	public ChansonServiceImpl() {
 		entityManager = EntityMan.getInstance();
 	}
+	/******************************************************************/
 	
 	
+	
+	
+	/******************************************************************\
+	 * Create
+	\******************************************************************/
 	@PUT @Path("creer/{nom}/{duree}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Chanson creerChanson(@PathParam("nom") String nom, @PathParam("duree") int duree) {
+	public long creerChanson(@PathParam("nom") String nom, @PathParam("duree") int duree) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -40,25 +51,69 @@ public class ChansonServiceImpl implements ChansonService {
 		
 		transaction.commit();
 		
-		return chanson;
+		return chanson.getId();
 	}
-
-	@DELETE @Path("delete/{nom}")
-	public void supprimerChanson(@PathParam("nom")  String nom) {		
-		Query query = entityManager.createQuery ("SELECT chansons FROM Chanson as chansons where chansons.nom=:p_nom");
-		query.setParameter("p_nom", nom);
+	/******************************************************************/
+	
+	
+	
+	
+	/******************************************************************\
+	 * Read
+	\******************************************************************/
+	@GET @Path("afficher/{id}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Chanson getChanson(@PathParam("id") long id) {
+		Query query = entityManager.createQuery ("SELECT chansons FROM Chanson as chansons where seances.id=:p_id");
+		query.setParameter("p_id", id);
 		
-		@SuppressWarnings("unchecked")
-		List<Chanson> results = query.getResultList();
-		
-		if(!results.isEmpty()) {
-			EntityTransaction transaction = entityManager.getTransaction();
-			transaction.begin();
-			
-			entityManager.remove(results.get(0));
-		
-			transaction.commit();
-		}
+		return (Chanson)query.getSingleResult();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@GET @Path("afficher")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Chanson> getChansons() {
+		Query query = entityManager.createQuery ("SELECT chansons FROM Chanson as chansons");
+		
+		return query.getResultList();
+	}
+	/******************************************************************/
+	
+	
+	
+	
+	/******************************************************************\
+	 * Update
+	\******************************************************************/
+	@POST @Path("modifier/{id}/{nom}/{duree}")
+	public void modifier(@PathParam("id") long id, @PathParam("nom") String nom, @PathParam("duree") int duree) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Chanson chanson = getChanson(id);
+		chanson.setNom(nom);
+		chanson.setDuree(duree);
+		
+		transaction.commit();
+	}
+	/******************************************************************/
 
+	
+	
+	
+	/******************************************************************\
+	 * Delete
+	\******************************************************************/
+	@DELETE @Path("supprimer/{id}")
+	public void supprimerChanson(@PathParam("id") long id) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Chanson seance = getChanson(id);
+		entityManager.remove(seance);
+		
+		transaction.commit();
+	}
+	/******************************************************************/
 }
