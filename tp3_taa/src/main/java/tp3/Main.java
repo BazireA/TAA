@@ -19,43 +19,44 @@ public class Main {
 			EntityManagerFactory emf = Persistence.createEntityManagerFactory("mysql-fouad");
 			
 			// Retrieve an entity manager
-			EntityManager em = EntityMan.getInstance();
+			EntityManager entityManager = EntityMan.getInstance();
 
 			
-			TypeSportService typeSport = new TypeSportServiceImpl();
-			typeSport.creerTypeSport();
-			typeSport.modifier(1, "Running");
-			typeSport.creerTypeSport();
-			typeSport.modifier(2, "Marche à pied");
+			TypeSportService typeSportService = new TypeSportServiceImpl();
+			typeSportService.creerTypeSport();
+			typeSportService.modifier(1, "Running");
+			typeSportService.creerTypeSport();
+			typeSportService.modifier(2, "Marche à pied");
 			
-			ListeChansonService playlist = new ListeChansonServiceImpl();
-			playlist.creer("Playlist 1");
-			playlist.creer("Playlist 2");
+			ListeChansonService playlistService = new ListeChansonServiceImpl();
+			playlistService.creer("Playlist 1");
+			playlistService.creer("Playlist 2");
 			
-			ParcoursService parcours = new ParcoursServiceImpl();
-			parcours.creerParcours("Parcours 1");
-			parcours.creerParcours("Parcours 2");
+			ParcoursService parcoursService = new ParcoursServiceImpl();
+			parcoursService.creer("Parcours 1");
+			parcoursService.creer("Parcours 2");
 			
 			
 			// Begin a transaction
-			EntityTransaction tx = null;
+			EntityTransaction transaction = null;
 			try {
-				tx = em.getTransaction();
-				tx.begin();
+				transaction = entityManager.getTransaction();
+				transaction.begin();
 				
 				// Your entity becomes persistant
 				// em.persist(t);
 				
-				tx.commit(); //do the flush automatically
+				transaction.commit(); //do the flush automatically
 			}
 			catch (RuntimeException e) {
-				if (tx != null && tx.isActive())
-					tx.rollback();
+				if (transaction != null && transaction.isActive())
+					transaction.rollback();
 				throw e; // or display error message
 			}
 			finally {
-				em.close();
+				entityManager.close();
 			}
+			
 			emf.close(); // close at application end
 		}
 }

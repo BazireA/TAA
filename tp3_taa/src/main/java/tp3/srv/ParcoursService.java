@@ -6,9 +6,27 @@ import tp3.Parcours;
 
 public interface ParcoursService {
 	
-	public long creerParcours(String nom);
+	/******************************************************************\
+	 * Create
+	\******************************************************************/
+	public long creer(String nom);
+	
+	
+	/******************************************************************\
+	 * Read
+	\******************************************************************/
 	public Parcours getParcours(long id);
 	public List<Parcours> getParcours();
+	
+	
+	/******************************************************************\
+	 * Update
+	\******************************************************************/
 	public void modifier(long id, String nom);
-	public void supprimerSport(long id);
+	
+	
+	/******************************************************************\
+	 * Delete
+	\******************************************************************/
+	public void supprimer(long id);
 }

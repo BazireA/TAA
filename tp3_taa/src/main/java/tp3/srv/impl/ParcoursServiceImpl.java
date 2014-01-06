@@ -24,25 +24,42 @@ public class ParcoursServiceImpl implements ParcoursService {
 	private EntityManager entityManager;
 	
 	
+	/******************************************************************\
+	 * Constructeur
+	\******************************************************************/
 	public ParcoursServiceImpl() {
 		entityManager = EntityMan.getInstance();
 	}
+	/******************************************************************/
 	
 
+	
+	
+	/******************************************************************\
+	 * Create
+	\******************************************************************/
 	@PUT @Path("creer")
-	public long creerParcours(@PathParam("nom") String nom) {
+	public long creer(@PathParam("nom") String nom) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
 		Parcours parcours = new Parcours();
 		parcours.setNom(nom);
+		
 		entityManager.persist(parcours);
 		
 		transaction.commit();
 		
 		return parcours.getId();
 	}
+	/******************************************************************/
 
+	
+	
+	
+	/******************************************************************\
+	 * Read
+	\******************************************************************/
 	@GET @Path("afficher/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Parcours getParcours(@PathParam("id") long id) {
@@ -57,9 +74,17 @@ public class ParcoursServiceImpl implements ParcoursService {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Parcours> getParcours() {
 		Query query = entityManager.createQuery ("SELECT parcours FROM Parcours as parcours");
+		
 		return query.getResultList();
 	}
+	/******************************************************************/
 
+	
+	
+	
+	/******************************************************************\
+	 * Update
+	\******************************************************************/
 	@POST @Path("modifier/{id}/{nom}")
 	public void modifier(@PathParam("id") long id, @PathParam("nom") String nom) {
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -70,9 +95,16 @@ public class ParcoursServiceImpl implements ParcoursService {
 		
 		transaction.commit();
 	}
+	/******************************************************************/
 
-	@DELETE @Path("supprimerSport/{id}")
-	public void supprimerSport(@PathParam("id") long id) {
+
+	
+	
+	/******************************************************************\
+	 * Delete
+	\******************************************************************/
+	@DELETE @Path("supprimer/{id}")
+	public void supprimer(@PathParam("id") long id) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
@@ -81,4 +113,5 @@ public class ParcoursServiceImpl implements ParcoursService {
 		
 		transaction.commit();
 	}
+	/******************************************************************/
 }

@@ -1,70 +1,54 @@
 package tp3;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 
-/**
- * <br>
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
 
-@javax.persistence.Entity
+@Entity
 public class Parcours
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	@javax.persistence.Column(nullable = false)
+	/******************************************************************\
+	 * Attributs
+	\******************************************************************/
+	@Id
+	@Column(nullable = false)
+	@GeneratedValue
+	protected final Long id = 0L;
+	
+	@Column(nullable = false)
 	protected String nom;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	@javax.persistence.OneToOne
+	@OneToOne
 	protected Personne champion;
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
-	@javax.persistence.ManyToMany(mappedBy = "parcours")
+	@ManyToMany(mappedBy = "parcours")
 	protected Set<PointGPS> pointGPS;
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	@javax.persistence.Id
-	@javax.persistence.Column(nullable = false)
-	@javax.persistence.GeneratedValue
-	protected final Long id = 0L;
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
+	/******************************************************************/
+	
+	
+	
+	
+	/******************************************************************\
+	 * Constructeur
+	\******************************************************************/
 	public Parcours(){
 		super();
 	}
+	/******************************************************************/
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+	
+
+	
+	/******************************************************************\
+	 * 
+	\******************************************************************/
 	public void basicSetChampion(Personne myChampion) {
 		if (this.champion != myChampion) {
 			if (myChampion != null){
@@ -77,147 +61,89 @@ public class Parcours
 			}
 		}	
 	}
+	/******************************************************************/
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public Personne getChampion() {
-		return this.champion;	
-	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+	
+	
+	/******************************************************************\
+	 * Getters
+	\******************************************************************/
+	public long getId() { return this.id; }
+	public String getNom() { return this.nom; }
+	public Personne getChampion() { return this.champion; }
+	
 	public Set<PointGPS> getPointGPS() {
-		if(this.pointGPS == null) {
-				this.pointGPS = new HashSet<PointGPS>();
-		}
+		if(this.pointGPS == null)
+			this.pointGPS = new HashSet<PointGPS>();
+
 		return (Set<PointGPS>) this.pointGPS;	
 	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public long getId() {
-		return this.id;	
-	}
+	/******************************************************************/
 	
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public String getNom() {
-		return this.nom;	
-	}
 	
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+	/******************************************************************\
+	 * Setters
+	\******************************************************************/
 	public void setNom(String myNom) {
 		this.nom = myNom;	
 	}
 	
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void addAllPointGPS(Set<PointGPS> newPointGPS) {
-		if (this.pointGPS == null) {
-			this.pointGPS = new HashSet<PointGPS>();
-		}
-		for (PointGPS tmp : newPointGPS)
-			tmp.addParcours(this);
-			
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void removeAllPointGPS(Set<PointGPS> newPointGPS) {
-		if(this.pointGPS == null) {
-			return;
-		}
-		
-		this.pointGPS.removeAll(newPointGPS);	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	public void setChampion(Personne myChampion) {
 		this.basicSetChampion(myChampion);
 		myChampion.basicSetParcours(this);
-			
 	}
+
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	public void addPointGPS(PointGPS newPointGPS) {
-		if(this.pointGPS == null) {
+		if(this.pointGPS == null)
 			this.pointGPS = new HashSet<PointGPS>();
-		}
 		
 		if (this.pointGPS.add(newPointGPS))
 			newPointGPS.addParcours(this);	
-	}
+	}	
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void unsetChampion() {
-		if (this.champion == null)
-			return;
-		Personne oldchampion = this.champion;
-		this.champion = null;
-		oldchampion.unsetParcours();	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	public void removePointGPS(PointGPS oldPointGPS) {
 		if(this.pointGPS == null)
 			return;
 		
 		if (this.pointGPS.remove(oldPointGPS))
 			oldPointGPS.removeParcours(this);
-			
 	}
 	
+	
+	public void addAllPointGPS(Set<PointGPS> newPointGPS) {
+		if (this.pointGPS == null)
+			this.pointGPS = new HashSet<PointGPS>();
+			
+		for (PointGPS tmp : newPointGPS)
+			tmp.addParcours(this);
+	}
+	
+	public void removeAllPointGPS(Set<PointGPS> newPointGPS) {
+		if(this.pointGPS == null)
+			return;
+		
+		this.pointGPS.removeAll(newPointGPS);	
+	}
+	/******************************************************************/
+	
+	
+	
+	
+	/******************************************************************\
+	 * Unsetters
+	\******************************************************************/
+	public void unsetChampion() {
+		if (this.champion == null)
+			return;
+		
+		Personne oldchampion = this.champion;
+		this.champion = null;
+		oldchampion.unsetParcours();	
+	}
+	/******************************************************************/
 }
 
