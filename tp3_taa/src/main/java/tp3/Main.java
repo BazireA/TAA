@@ -29,8 +29,8 @@ public class Main {
 			typeSport.modifier(2, "Marche à pied");
 			
 			ListeChansonService playlist = new ListeChansonServiceImpl();
-			playlist.creerListeChanson("Playlist 1");
-			playlist.creerListeChanson("Playlist 2");
+			playlist.creer("Playlist 1");
+			playlist.creer("Playlist 2");
 			
 			ParcoursService parcours = new ParcoursServiceImpl();
 			parcours.creerParcours("Parcours 1");

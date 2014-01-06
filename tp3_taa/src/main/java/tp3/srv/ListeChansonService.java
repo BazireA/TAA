@@ -1,13 +1,34 @@
 package tp3.srv;
 
-import tp3.Chanson;
+import java.util.List;
+
 import tp3.ListeChanson;
 
 public interface ListeChansonService {
 
-	public void creerListeChanson(String nom);
-	public void modifierNomListe(long id, String nouveauNom);
-	public void supprimerChanson(long id, Chanson chanson);
-	public void ajouterChanson(long id,Chanson chanson);
+	/******************************************************************\
+	 * Create
+	\******************************************************************/
+	public long creer(String nom);
+
+	
+	/******************************************************************\
+	 * Read
+	\******************************************************************/
 	public ListeChanson getListeChanson(long id);
+	public List<ListeChanson> getListesChanson();
+	
+	
+	/******************************************************************\
+	 * Update
+	\******************************************************************/
+	public void modifierNomListe(long id, String nouveauNom);
+	public void ajouterChanson(long id, long idChanson);
+	public void supprimerChanson(long id, long idChanson);
+	
+	
+	/******************************************************************\
+	 * Delete
+	\******************************************************************/
+	public void supprimer(long id);
 }
