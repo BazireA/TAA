@@ -1,202 +1,82 @@
 package tp3;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 
-/**
- * <br>
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
-
-@javax.persistence.Entity
+@Entity
 public class PointGPS
 {
-	/**
-	 * <br>
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	@javax.persistence.Column(nullable = false)
-	protected int x;
-	/**
-	 * <br>
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	@javax.persistence.Column(nullable = false)
-	protected int y;
-	/**
-	 * <br>
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	@javax.persistence.Column(nullable = false)
-	protected int z;
-	/**
-	 * <br>
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	@javax.persistence.ManyToMany
-	protected Set<Parcours> parcours;
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	@javax.persistence.Id
-	@javax.persistence.Column(nullable = false)
-	@javax.persistence.GeneratedValue
+	/******************************************************************\
+	 * Attributs
+	\******************************************************************/
+	@Id
+	@Column(nullable = false)
+	@GeneratedValue
 	protected final Long id = 0L;
+	
+	@Column(nullable = false)
+	protected int latitude;
+	
+	@Column(nullable = false)
+	protected int longitude;
+	
+	@ManyToMany
+	protected Set<Parcours> parcours;
+	/******************************************************************/
+	
+	
 
-	/**
-	 * <br>
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public PointGPS(int x, int y, int z) {
+
+	/******************************************************************\
+	 * Constructeur
+	\******************************************************************/
+	public PointGPS(int latitude, int longitude) {
 		super();
-		// TODO : construct me	
+		
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
+	/******************************************************************/
 	
 	
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public int getX() {
-		return this.x;	
-	}
+
+	/******************************************************************\
+	 * Getters
+	\******************************************************************/
+	public long getId() { return this.id; }
+	public int getLatitude() { return this.latitude; }
+	public int getLongitude() { return this.longitude; }
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public int getY() {
-		return this.y;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public int getZ() {
-		return this.z;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	public Set<Parcours> getParcours() {
-		if(this.parcours == null) {
-				this.parcours = new HashSet<Parcours>();
-		}
+		if(this.parcours == null)
+			this.parcours = new HashSet<Parcours>();
+
 		return (Set<Parcours>) this.parcours;	
 	}
+	/******************************************************************/
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public long getId() {
-		return this.id;	
+	
+	
+	
+	/******************************************************************\
+	 * Setters
+	\******************************************************************/
+	public void setLatitude(int latitude) {
+		this.latitude = latitude;	
 	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void addAllParcours(Set<Parcours> newParcours) {
-		if (this.parcours == null) {
-			this.parcours = new HashSet<Parcours>();
-		}
-		for (Parcours tmp : newParcours)
-			tmp.addPointGPS(this);
-			
+	public void setLongitude(int longitude) {
+		this.longitude = longitude;	
 	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void removeAllParcours(Set<Parcours> newParcours) {
-		if(this.parcours == null) {
-			return;
-		}
-		
-		this.parcours.removeAll(newParcours);	
-	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void setX(int myX) {
-		this.x = myX;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void setY(int myY) {
-		this.y = myY;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void setZ(int myZ) {
-		this.z = myZ;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	public void addParcours(Parcours newParcours) {
 		if(this.parcours == null) {
 			this.parcours = new HashSet<Parcours>();
@@ -206,50 +86,45 @@ public class PointGPS
 			newParcours.addPointGPS(this);	
 	}
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void unsetX() {
-		this.x = 0;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void unsetY() {
-		this.y = 0;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public void unsetZ() {
-		this.z = 0;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	public void removeParcours(Parcours oldParcours) {
 		if(this.parcours == null)
 			return;
 		
 		if (this.parcours.remove(oldParcours))
 			oldParcours.removePointGPS(this);
-			
 	}
 	
+	
+	public void addAllParcours(Set<Parcours> newParcours) {
+		if (this.parcours == null)
+			this.parcours = new HashSet<Parcours>();
+
+		for (Parcours tmp : newParcours)
+			tmp.addPointGPS(this);
+	}
+	
+	public void removeAllParcours(Set<Parcours> newParcours) {
+		if(this.parcours == null) {
+			return;
+		}
+		
+		this.parcours.removeAll(newParcours);	
+	}
+	/******************************************************************/
+	
+	
+	
+	
+	/******************************************************************\
+	 * Unsetters
+	\******************************************************************/
+	public void unsetLatitude() {
+		this.latitude = 0;	
+	}
+	
+	public void unsetLongitude() {
+		this.longitude = 0;	
+	}
+	/******************************************************************/
 }
 
