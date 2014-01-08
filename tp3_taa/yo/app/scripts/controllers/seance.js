@@ -1,5 +1,9 @@
 'use strict';
 
+
+/*****************************************************************************\
+ * Factory
+\*****************************************************************************/
 angular.module('yoApp')
     .factory('seanceFactory', ['$http', function($http) {
 
@@ -73,14 +77,21 @@ angular.module('yoApp')
 
     return dataFactory;
 }]);
+/*****************************************************************************/
 
 
 
 
+/*****************************************************************************\
+ * Controller
+\*****************************************************************************/
 angular.module('yoApp')
     .controller('SeanceController', ['$scope', '$routeParams', 'seanceFactory', 'meteoFactory',
         function ($scope, $routeParams, dataFactory, meteoFactory) {
     
+        /*********************************************************************\
+         * Variables
+        \*********************************************************************/
         $scope.status;
         $scope.seances;
         $scope.itemSelected = {
@@ -92,9 +103,14 @@ angular.module('yoApp')
                 temps: ''
             }
         };
+        /*********************************************************************/
         
         
         
+        
+        /*********************************************************************\
+         * Initialisation
+        \*********************************************************************/
         function initialiserParametreInt(valeur) {
             var result = 0;
             
@@ -113,19 +129,6 @@ angular.module('yoApp')
             }
             
             return result;
-        }
-        
-        
-        
-        $scope.getSeances = function () {
-            dataFactory.getSeances()
-                .success(function (seances) {
-                    $scope.status = 'Ok';
-                    $scope.seances = seances;
-                })
-                .error(function (error) {
-                    $scope.status = 'Echec de la récupération de la liste des séances';
-                });
         }
         
         
@@ -160,8 +163,14 @@ angular.module('yoApp')
                     alert(error);
                 });
         }
+        /*********************************************************************/
         
         
+        
+        
+        /*********************************************************************\
+         * Create
+        \*********************************************************************/
         $scope.creer = function() {
             var distance = initialiserParametreInt($scope.distance);
             var duree = initialiserParametreInt($scope.duree);
@@ -202,8 +211,32 @@ angular.module('yoApp')
                     $scope.status = 'Echec de la création de la séance';
                 });
         }
+        /*********************************************************************/
         
         
+        
+        
+        /*********************************************************************\
+         * Read
+        \*********************************************************************/
+        $scope.getSeances = function () {
+            dataFactory.getSeances()
+                .success(function (seances) {
+                    $scope.status = 'Ok';
+                    $scope.seances = seances;
+                })
+                .error(function (error) {
+                    $scope.status = 'Echec de la récupération de la liste des séances';
+                });
+        }
+        /*********************************************************************/
+        
+        
+        
+        
+        /*********************************************************************\
+         * Update
+        \*********************************************************************/
         $scope.modifier = function() {
             var distance = initialiserParametreInt($scope.distance);
             var duree = initialiserParametreInt($scope.duree);
@@ -248,8 +281,14 @@ angular.module('yoApp')
                     $scope.status = 'Echec de la modification de la séance';
                 });
         }
+        /*********************************************************************/
         
         
+        
+        
+        /*********************************************************************\
+         * Delete
+        \*********************************************************************/
         $scope.supprimer = function(id) {
             dataFactory.supprimer(id)
                 .success(function (result) {
@@ -262,4 +301,6 @@ angular.module('yoApp')
                     alert("Echec de la suppression de la séance.");
                 });
         }
+        /*********************************************************************/
   }]);
+/*****************************************************************************/

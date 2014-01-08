@@ -1,13 +1,13 @@
 
 <header class="codrops-header">
-  <h1>Ajout d'une s&eacute;ance</h1>
+  <h1>Modification d'une s&eacute;ance</h1>
   <h2>Status : {{status}}</h2>
 </header>
 
 <div id="form-panel">
-  <form ng-controller="SeanceController" ng-submit="creer()">    
-    <!--<div ng-include="'views/seance-form.html'"></div>-->
-    <div class="form-container">
+  <form ng-controller="SeanceController" ng-submit="modifier()">    
+    <!--<div ng-include="'views/form.html'" ng-init="initialiserChamps()"></div>-->
+    <div class="form-container" ng-init="initialiserChamps()">
       <div class="form-group">
         <label class="control-label">Sport :<br></label>
         <div class="controls" ng-controller="SportController" ng-init="getSports()">
@@ -81,7 +81,7 @@
            </select>
         </div>
       </div>
-    </div>        
-    <input type="submit" class="form-button-validate" value="Ajouter" />
+    </div>
+    <input type="submit" class="form-button-validate" value="Modifier" />
   </form>
 </div>
