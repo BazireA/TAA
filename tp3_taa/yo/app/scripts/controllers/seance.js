@@ -111,27 +111,6 @@ angular.module('yoApp')
         /*********************************************************************\
          * Initialisation
         \*********************************************************************/
-        function initialiserParametreInt(valeur) {
-            var result = 0;
-            
-            if (valeur !== undefined) {
-                result = valeur;
-            }
-            
-            return result;
-        }
-        
-        function initialiserParametreString(valeur) {
-            var result = '0';
-            
-            if ((valeur !== undefined) && (valeur !== '')) {
-                result = valeur;
-            }
-            
-            return result;
-        }
-        
-        
         $scope.initialiserChamps = function() {
             dataFactory.getSeanceById($routeParams.seanceId)
                 .success(function (seance) {
@@ -272,7 +251,7 @@ angular.module('yoApp')
                                 vent,
                                 uv,
                                 parcours)
-                .success(function (seance) {
+                .success(function () {
                     $scope.status = 'Séance modifiée';
                     
                     window.location = "#/seances";
@@ -291,7 +270,7 @@ angular.module('yoApp')
         \*********************************************************************/
         $scope.supprimer = function(id) {
             dataFactory.supprimer(id)
-                .success(function (result) {
+                .success(function () {
                     $scope.status = 'Séance supprimée';
                     
                     document.location.reload(true);

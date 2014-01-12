@@ -86,7 +86,7 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 	 * Update
 	\******************************************************************/
 	@POST @Path("modifier/{id}/{nouveauNom}")
-	public void modifierNomListe(@PathParam("id") long id, @PathParam("nouveauNom") String nouveauNom) {
+	public void modifier(@PathParam("id") long id, @PathParam("nouveauNom") String nouveauNom) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 

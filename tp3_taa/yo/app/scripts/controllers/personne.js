@@ -1,37 +1,42 @@
 'use strict';
 
+
 /*****************************************************************************\
  * Factory
 \*****************************************************************************/
 angular.module('yoApp')
-    .factory('playlistFactory', ['$http', function($http) {
+    .factory('personneFactory', ['$http', function($http) {
 
     var server = 'http://localhost:8080';
-    var urlBase = server + '/endomondolike/listechansons';
+    var urlBase = server + '/endomondolike/personnes';
     var dataFactory = {};
 
-    dataFactory.getPlaylistById = function (id) {
+    dataFactory.getPersonneById = function (id) {
         return $http.get(urlBase + '/afficher/' + id);
     };
-
-    dataFactory.getPlaylists = function () {
+    
+    dataFactory.getPersonne = function () {
         return $http.get(urlBase + '/afficher');
     };
 
-    dataFactory.creer = function (name) {
-        return $http.put(urlBase + '/creer/' + name);
+    dataFactory.creer = function (lastName, firstName, mail, password) {
+        return $http.put(urlBase + '/creer/ ' + lastName + '/' + firstName + '/' + mail + '/' + password);
     };
 
-    dataFactory.modifier = function (id, name) {
-        return $http.post(urlBase + '/modifier/' + id + '/' + name);
+    dataFactory.modifier = function (id, lastName, firstName, mail, password) {
+        return $http.post(urlBase + '/modifier/' + id + '/' + lastName + '/' + firstName + '/' + mail + '/' + password);
     };
 
-    dataFactory.ajouterChanson = function (id, idSong) {
-        return $http.post(urlBase + '/ajouterChanson/' + id + '/' + idSong);
+    dataFactory.getAmis = function (id) {
+        return $http.get(urlBase + '/rechercherAmis/' + id);
     };
 
-    dataFactory.supprimerChanson = function (id, idSong) {
-        return $http.delete(urlBase + '/supprimerChanson/' + id + '/' + idSong);
+    dataFactory.ajouterAmis = function (id, idAmis) {
+        return $http.put(urlBase + '/ajouterAmis/ ' + id + '/' + idAmis);
+    };
+
+    dataFactory.supprimerAmis = function (id, idAmis) {
+        return $http.delete(urlBase + '/supprimerAmis/' + id + '/' + idAmis);
     };
 
     dataFactory.supprimer = function (id) {
@@ -41,21 +46,21 @@ angular.module('yoApp')
     return dataFactory;
 }]);
 /*****************************************************************************/
-    
+
 
 
 
 /*****************************************************************************\
  * Controller
-\*****************************************************************************/ 
+\*****************************************************************************/
 angular.module('yoApp')
-  .controller('PlaylistController', ['$scope', '$routeParams', 'playlistFactory', 
+  .controller('PersonneController', ['$scope', '$routeParams', 'personneFactory', 
         function ($scope, $routeParams, dataFactory) {
     
         /*********************************************************************\
          * Variables
         \*********************************************************************/
-        $scope.playlists;
+        $scope.amis;
         $scope.status;
         /*********************************************************************/
         
@@ -66,12 +71,12 @@ angular.module('yoApp')
          * Initialisation
         \*********************************************************************/
         $scope.initialiserChamps = function() {
-            dataFactory.getPlaylistById($routeParams.playlistId)
-                .success(function (playlist) {
+            dataFactory.getPersonneById($routeParams.personneId)
+                .success(function (personne) {
                     $scope.status = 'Ok';
                 })
                 .error(function (error) {
-                    $scope.status = 'Echec de la récupération de la playlist';
+                    $scope.status = 'Echec de la récupération de la personne';
                 });
         }
         /*********************************************************************/
@@ -83,16 +88,19 @@ angular.module('yoApp')
          * Create
         \*********************************************************************/
         $scope.creer = function() {
-            var name = initialiserParametreString($scope.name);
+            var firstName = initialiserParametreString($scope.firstName);
+            var lastName = initialiserParametreString($scope.lastName);
+            var mail = initialiserParametreString($scope.mail);
+            var password = initialiserParametreString($scope.password);
             
-            dataFactory.creer(name)
-                .success(function (playlist) {
-                    $scope.status = 'Playlist créée';
+            dataFactory.creer(lastName, firstName, mail, password)
+                .success(function (personne) {
+                    $scope.status = 'Personne créée';
                     
-                    window.location = "#/listechansons";
+                    window.location = "#/dashboard";
                 })
                 .error(function (error) {
-                    $scope.status = 'Echec de la création de la playlist';
+                    $scope.status = 'Echec de la création de la personne';
                 });
         }
         /*********************************************************************/
@@ -103,14 +111,14 @@ angular.module('yoApp')
         /*********************************************************************\
          * Read
         \*********************************************************************/
-        $scope.getPlaylists = function () {
-            dataFactory.getPlaylists()
-                .success(function (playlists) {
+        $scope.getAmis = function() {
+            dataFactory.getAmis() // TODO : Ajouter l'id en paramètre
+                .success(function (amis) {
                     $scope.status = 'Ok';
-                    $scope.playlists = playlists;
+                    $scope.amis = amis;
                 })
                 .error(function (error) {
-                    $scope.status = 'Echec de la récupération des playlists';
+                    $scope.status = 'Echec de la récupération des amis';
                 });
         }
         /*********************************************************************/
@@ -122,41 +130,45 @@ angular.module('yoApp')
          * Update
         \*********************************************************************/
         $scope.modifier = function() {
-            var name = initialiserParametreString($scope.name);
+            var firstName = initialiserParametreInt($scope.firstName);
+            var lastName = initialiserParametreInt($scope.lastName);
+            var mail = initialiserParametreInt($scope.mail);
+            var password = initialiserParametreInt($scope.password);
             
-            dataFactory.modifier($routeParams.playlistId, name)
-                .success(function (playlist) {
-                    $scope.status = 'Playlist modifiée';
+            dataFactory.modifier($routeParams.personneId, lastName, firstName, mail, password)
+                .success(function () {
+                    $scope.status = 'Personne modifiée';
                     
-                    window.location = "#/listechansons";
+                    window.location = "#/dashboard";
                 })
                 .error(function (error) {
-                    $scope.status = 'Echec de la modification de la playlist';
+                    $scope.status = 'Echec de la modification de la personne';
                 });
         }
         
         
-        $scope.ajouterChanson = function() {
-            dataFactory.ajouterChanson($routeParams.playlistId, $scope.chansonId)
+        $scope.ajouterAmis = function() {
+            dataFactory.ajouterAmis($routeParams.personneId, $scope.newFriendId)
                 .success(function () {
-                    $scope.status = 'Playlist modifiée';
+                    $scope.status = 'Amis ajouté';
                     
-                    window.location = "#/listechansons";
+                    window.location = "#/amis";
                 })
                 .error(function (error) {
-                    $scope.status = 'Echec de l\'ajout de la chanson dans la playlist';
+                    $scope.status = 'Echec de l\'ajout de la personne en amis';
                 });
         }
         
-        $scope.supprimerChanson = function() {
-            dataFactory.supprimerChanson($routeParams.playlistId, $scope.chansonId)
+        
+        $scope.supprimerAmis = function() {
+            dataFactory.supprimerAmis($routeParams.personneId, $scope.oldFriendId)
                 .success(function () {
-                    $scope.status = 'Playlist modifiée';
+                    $scope.status = 'Amis supprimé';
                     
-                    window.location = "#/listechansons";
+                    window.location = "#/amis";
                 })
                 .error(function (error) {
-                    $scope.status = 'Echec de la suppression de la chanson dans la playlist';
+                    $scope.status = 'Echec de la suppression de la personne en amis';
                 });
         }
         /*********************************************************************/
@@ -169,14 +181,14 @@ angular.module('yoApp')
         \*********************************************************************/
         $scope.supprimer = function(id) {
             dataFactory.supprimer(id)
-                .success(function (result) {
-                    $scope.status = 'Playlist supprimée';
+                .success(function () {
+                    $scope.status = 'Personne supprimée';
                     
-                    document.location.reload(true);
+                    window.location = "#/login";
                 }) .error(function (error) {
-                    $scope.status = 'Echec de la suppression de la playlist';
+                    $scope.status = 'Echec de la suppression de la personne';
                     
-                    alert("Echec de la suppression de la playlist.");
+                    alert("Echec de la suppression de la personne.");
                 });
         }
         /*********************************************************************/

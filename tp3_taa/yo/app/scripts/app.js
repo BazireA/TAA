@@ -7,6 +7,10 @@ angular.module('yoApp', ['ngCookies', 'ngResource', 'ngSanitize'])
         templateUrl: 'views/dashboard/dashboard.html',
         controller: 'DashboardController'
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'PersonneController'
+      })
       .when('/seances', {
         templateUrl: 'views/seance/seance.html',
         controller: 'SeanceController'
@@ -45,9 +49,30 @@ angular.module('yoApp', ['ngCookies', 'ngResource', 'ngSanitize'])
       })
       .when('/amis', {
         templateUrl: 'views/amis/amis.html',
-        controller: 'AmisController'
+        controller: 'PersonneController'
       })
       .otherwise({
         redirectTo: '/'
       });
   });
+
+
+function initialiserParametreInt(valeur) {
+    var result = 0;
+    
+    if (valeur !== undefined) {
+        result = valeur;
+    }
+    
+    return result;
+}
+
+function initialiserParametreString(valeur) {
+    var result = '0';
+    
+    if ((valeur !== undefined) && (valeur !== '')) {
+        result = valeur;
+    }
+    
+    return result;
+}
