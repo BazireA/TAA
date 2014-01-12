@@ -121,8 +121,12 @@ public class PersonneServiceImpl implements PersonneService{
 	}
 	/******************************************************************/
 	
+
 	
 	
+	/******************************************************************\
+	 * Friends Management
+	\******************************************************************/
 	@GET @Path("rechercherAmis/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Collection<Personne> rechercherAmis(@PathParam("id") long id) {
@@ -130,4 +134,31 @@ public class PersonneServiceImpl implements PersonneService{
 		
 		return personne.getAmis();
 	}
+	
+	@POST @Path("ajouterAmis/{id}/{idAmis}")
+	public void ajouterAmis(@PathParam("id") long id, @PathParam("idAmis") long idAmis) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Personne personne = getPersonne(id);
+		Personne amis = getPersonne(idAmis);
+		
+		personne.addAmis(amis);
+		
+		transaction.commit();
+	}
+	
+	@POST @Path("supprimerAmis/{id}/{idAmis}")
+	public void supprimerAmis(@PathParam("id") long id, @PathParam("idAmis") long idAmis) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		
+		Personne personne = getPersonne(id);
+		Personne amis = getPersonne(idAmis);
+		
+		personne.removeAmis(amis);
+		
+		transaction.commit();
+	}
+	/******************************************************************/
 }

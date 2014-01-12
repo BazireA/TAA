@@ -32,5 +32,10 @@ public interface PersonneService {
 	public void supprimer(long id);
 	
 	
+	/******************************************************************\
+	 * Friends Management
+	\******************************************************************/
 	public Collection<Personne> rechercherAmis(long id);
+	public void ajouterAmis(long id, long idAmis);
+	public void supprimerAmis(long id, long idAmis);
 }
