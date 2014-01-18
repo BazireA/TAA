@@ -1,0 +1,81 @@
+
+<script type="text/javascript">
+    var authentificated = localStorage['authentificated'];
+
+    if (authentificated === "true")  {
+        document.location.href = "#/"
+    }
+</script>
+
+<div class="container" ng-controller="PersonneController">
+    <form class="form-signin">
+        <h2 class="form-signin-heading">Identification</h2>
+        <input id="firstName"
+                type="text"
+                class="form-control register"
+                placeholder="Pr&eacute;nom"
+                ng-model="firstName"
+                required
+        />
+        <input id="lastName"
+                type="text"
+                class="form-control register"
+                minlength="10"
+                maxlength="10"
+                placeholder="Nom"
+                ng-model="lastName"
+                required
+        />
+        <input id="login"
+                type="text"
+                class="form-control"
+                placeholder="Adresse email"
+                ng-model="mail"
+                required
+        />
+        <input id="password"
+                type="password"
+                class="form-control"
+                placeholder="Mot de passe"
+                ng-model="password"
+                required
+        />
+        <button id="loginButton"
+                class="btn pull-right btn-success btn-lg btn-block login"
+                type="submit"
+                ng-click="login()">
+            <span class="glyphicon glyphicon-log-in"></span>
+            Login
+        </button>
+        <button id="registerButton"
+            class="btn pull-right btn-success btn-lg btn-block register"
+            type="submit"
+            ng-click="creer()">
+            <span class="glyphicon glyphicon-floppy-disk"></span>
+            S'enregister
+        </button>
+        <a id="loginLink" class="btn pull-left register">S'identifier</a>
+        <a id="registerLink" class="btn pull-left login">S'enregistrer</a>
+    </form>
+</div>
+<!-- /container -->
+    
+    
+    <!-- Modal -->
+    <div class="modal fade" id="login-failed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content black-text">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Compte introuvable</h4>
+      </div>
+      <div class="modal-body">
+        <img src="images/lock.png" width="64" height="64"/>
+        <b class="message">Adresse email ou mot de passe incorrect.</b>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+      </div>
+    </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->

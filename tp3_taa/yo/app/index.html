@@ -40,13 +40,13 @@
     
     <nav id="bt-menu" class="bt-menu">
       <a href="#" class="bt-menu-trigger"><span>Menu</span></a>
-      <ul>
+      <ul class="hidden-menu">
         <li><a href="#" class="bt-icon icon-calendar">Dashboard</a></li>
         <li><a href="#/seances" class="bt-icon icon-file-add">S&eacute;ances</a></li>
         <li><a href="#/parcours" class="bt-icon icon-flag">Parcours</a></li>
         <li><a href="#/listechansons" class="bt-icon icon-cd">Playlists</a></li>
         <li><a href="#/amis" class="bt-icon icon-user-outline">Amis</a></li>
-        <li><a href="#/deconnexion" class="bt-icon icon-enter">D&eacute;connexion</a></li>
+        <li><a href="" class="bt-icon icon-enter" ng-controller="DashboardController" ng-click="deconnexion()">D&eacute;connexion</a></li>
       </ul>
     </nav>
     <script src="scripts/classie.js"></script>
@@ -101,10 +101,19 @@
         <script src="scripts/controllers/dashboard.js"></script>
         <script src="scripts/controllers/seance.js"></script>
         <script src="scripts/controllers/playlist.js"></script>
-        <script src="scripts/controllers/amis.js"></script>
+        <script src="scripts/controllers/chanson.js"></script>
+        <script src="scripts/controllers/personne.js"></script>
         <script src="scripts/controllers/sport.js"></script>
         <script src="scripts/controllers/parcours.js"></script>
         <script src="scripts/controllers/meteo.js"></script>
         <!-- endbuild -->
+		
+	<script type="text/javascript">
+        var authentificated = localStorage['authentificated'];
+    
+        if (authentificated === "false")  {
+            document.location.href = "#/login"
+        }
+    </script>
 </body>
 </html>

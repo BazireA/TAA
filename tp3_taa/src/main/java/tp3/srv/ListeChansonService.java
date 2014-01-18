@@ -24,7 +24,7 @@ public interface ListeChansonService {
 	\******************************************************************/
 	public void modifier(long id, String nouveauNom);
 	public void ajouterChanson(long id, long idChanson);
-	public void supprimerChanson(long id, long idChanson);
+	public void enleverChanson(long id, long idChanson);
 	
 	
 	/******************************************************************\

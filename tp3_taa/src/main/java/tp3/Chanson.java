@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 
 @Entity
 public class Chanson
@@ -51,6 +53,7 @@ public class Chanson
 	public String getNom() { return this.nom; }
 	public int getDuree() { return this.duree; }
 	
+	@JsonIgnore
 	public Set<ListeChanson> getListeChanson() {
 		if(this.listeChanson == null) {
 				this.listeChanson = new HashSet<ListeChanson>();

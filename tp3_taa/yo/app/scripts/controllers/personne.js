@@ -18,6 +18,10 @@ angular.module('yoApp')
     dataFactory.getPersonne = function () {
         return $http.get(urlBase + '/afficher');
     };
+    
+    dataFactory.login = function (login, password) {
+        return $http.get(urlBase + '/login/' + login + '/' + password);
+    };
 
     dataFactory.creer = function (lastName, firstName, mail, password) {
         return $http.put(urlBase + '/creer/ ' + lastName + '/' + firstName + '/' + mail + '/' + password);
@@ -68,6 +72,45 @@ angular.module('yoApp')
         
         
         /*********************************************************************\
+         * Code jQuery pour le switch entre "Identification" et "Enregistrement"
+        \*********************************************************************/
+        $(function() {
+            function redirectToRegister() {
+                $(".form-signin-heading").text("Enregistrement");
+                $(".login").hide();
+                $(".register").show();
+            }
+            
+            
+            function redirectToLogin() {
+                $(".form-signin-heading").text("Identification");
+                $(".register").hide();
+                $(".login").show();
+            }
+            
+            $(".register").hide();
+        
+            $("#registerLink")
+                .button()
+                .click(function(event) {
+                    event.preventDefault();
+                    redirectToRegister();
+                });
+        
+            $("#loginLink")
+                .button()
+                .hide()
+                .click(function(event) {
+                    event.preventDefault();
+                    redirectToLogin();
+                });
+        });
+        /*********************************************************************/
+        
+        
+        
+        
+        /*********************************************************************\
          * Initialisation
         \*********************************************************************/
         $scope.initialiserChamps = function() {
@@ -97,7 +140,9 @@ angular.module('yoApp')
                 .success(function (personne) {
                     $scope.status = 'Personne créée';
                     
-                    window.location = "#/dashboard";
+                    // Pas le temps de faire sécurisé
+                    localStorage['authentificated'] = true;
+                    window.location = "#/";
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de la création de la personne';
@@ -111,6 +156,29 @@ angular.module('yoApp')
         /*********************************************************************\
          * Read
         \*********************************************************************/
+        $scope.login = function() {
+            var mail = initialiserParametreString($scope.mail);
+            var password = initialiserParametreString($scope.password);
+            
+            dataFactory.login(mail, password)
+                .success(function (authentificated) {
+                    $scope.status = 'Ok';
+                    
+                    if (authentificated === "true") {
+                        // Pas le temps de faire sécurisé
+                        localStorage['authentificated'] = true;
+                        window.location = "#/";
+                    }
+                    else {
+                        $("#login-failed").modal('show');
+                    }
+                })
+                .error(function (error) {
+                    $scope.status = 'Echec de la tentative de connexion';
+                });
+        }
+        
+        
         $scope.getAmis = function() {
             dataFactory.getAmis() // TODO : Ajouter l'id en paramètre
                 .success(function (amis) {

@@ -1,4 +1,12 @@
 
+<script type="text/javascript">
+    var authentificated = localStorage['authentificated'];
+
+    if ((authentificated === undefined) || (authentificated === "false"))  {
+        document.location.href = "#/login"
+    }
+</script>
+
 <header class="codrops-header">
   <h1>Modification d'une s&eacute;ance</h1>
   <h2>Status : {{status}}</h2>

@@ -1,4 +1,12 @@
 
+<script type="text/javascript">
+    var authentificated = localStorage['authentificated'];
+
+    if ((authentificated === undefined) || (authentificated === "false"))  {
+        document.location.href = "#/login"
+    }
+</script>
+
 <div class="button-wrapper">
     <a href="#/parcours/add" class="a-btn">
     <span class="a-btn-text">+</span>

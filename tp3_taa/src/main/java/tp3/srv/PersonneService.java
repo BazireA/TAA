@@ -18,6 +18,7 @@ public interface PersonneService {
 	\******************************************************************/
 	public Personne getPersonne(long id);
 	public List<Personne> getPersonnes();
+	public boolean login(String login, String motDePasse);
 	
 	
 	/******************************************************************\

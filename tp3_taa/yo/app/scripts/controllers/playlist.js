@@ -30,8 +30,8 @@ angular.module('yoApp')
         return $http.post(urlBase + '/ajouterChanson/' + id + '/' + idSong);
     };
 
-    dataFactory.supprimerChanson = function (id, idSong) {
-        return $http.delete(urlBase + '/supprimerChanson/' + id + '/' + idSong);
+    dataFactory.enleverChanson = function (id, idSong) {
+        return $http.delete(urlBase + '/enleverChanson/' + id + '/' + idSong);
     };
 
     dataFactory.supprimer = function (id) {
@@ -49,14 +49,28 @@ angular.module('yoApp')
  * Controller
 \*****************************************************************************/ 
 angular.module('yoApp')
-  .controller('PlaylistController', ['$scope', '$routeParams', 'playlistFactory', 
-        function ($scope, $routeParams, dataFactory) {
+  .controller('PlaylistController', ['$scope', '$routeParams', 'playlistFactory', 'chansonFactory',
+        function ($scope, $routeParams, dataFactory, chansonFactory) {
     
         /*********************************************************************\
          * Variables
         \*********************************************************************/
         $scope.playlists;
+        $scope.chansons;
         $scope.status;
+        $scope.itemSelected = {
+            playlist: '',
+            chanson: '',
+            chansonToAdd: ''
+        }
+        
+        $scope.setPlaylistSelected = function(playlist) {
+            $scope.itemSelected.playlist = playlist;
+        }
+        
+        $scope.setChansonSelected = function(chanson) {
+            $scope.itemSelected.chanson = chanson;
+        }
         /*********************************************************************/
         
         
@@ -65,10 +79,12 @@ angular.module('yoApp')
         /*********************************************************************\
          * Initialisation
         \*********************************************************************/
-        $scope.initialiserChamps = function() {
-            dataFactory.getPlaylistById($routeParams.playlistId)
+        $scope.initialiserChamps = function(id) {
+            dataFactory.getPlaylistById(id)
                 .success(function (playlist) {
                     $scope.status = 'Ok';
+                    
+                    $scope.name = playlist.nom;
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de la récupération de la playlist';
@@ -89,7 +105,7 @@ angular.module('yoApp')
                 .success(function (playlist) {
                     $scope.status = 'Playlist créée';
                     
-                    window.location = "#/listechansons";
+                    document.location.reload(true);
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de la création de la playlist';
@@ -113,6 +129,23 @@ angular.module('yoApp')
                     $scope.status = 'Echec de la récupération des playlists';
                 });
         }
+        
+        $scope.getChansons = function () {
+            chansonFactory.getChansons()
+                .success(function (chansons) {
+                    $scope.status = 'Ok';
+                    $scope.chansons = chansons;
+                        
+                    for(var i = chansons.length-1; i >= 0; i--) {
+                        if (contains(chansons[i].id, $scope.itemSelected.playlist.chanson)) {
+                            $scope.chansons.splice(i, 1);
+                        }
+                    }
+                })
+                .error(function (error) {
+                    $scope.status = 'Echec de la récupération des chansons';
+                });
+        }
         /*********************************************************************/
         
         
@@ -124,11 +157,11 @@ angular.module('yoApp')
         $scope.modifier = function() {
             var name = initialiserParametreString($scope.name);
             
-            dataFactory.modifier($routeParams.playlistId, name)
+            dataFactory.modifier($scope.itemSelected.playlist.id, name)
                 .success(function (playlist) {
                     $scope.status = 'Playlist modifiée';
                     
-                    window.location = "#/listechansons";
+                    document.location.reload(true);
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de la modification de la playlist';
@@ -137,23 +170,23 @@ angular.module('yoApp')
         
         
         $scope.ajouterChanson = function() {
-            dataFactory.ajouterChanson($routeParams.playlistId, $scope.chansonId)
+            dataFactory.ajouterChanson($scope.itemSelected.playlist.id, $scope.itemSelected.chansonToAdd)
                 .success(function () {
-                    $scope.status = 'Playlist modifiée';
+                    $scope.status = 'Chanson ajoutée';
                     
-                    window.location = "#/listechansons";
+                    document.location.reload(true);
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de l\'ajout de la chanson dans la playlist';
                 });
         }
         
-        $scope.supprimerChanson = function() {
-            dataFactory.supprimerChanson($routeParams.playlistId, $scope.chansonId)
+        $scope.enleverChanson = function() {
+            dataFactory.enleverChanson($scope.itemSelected.playlist.id, $scope.itemSelected.chanson.id)
                 .success(function () {
-                    $scope.status = 'Playlist modifiée';
+                    $scope.status = 'Chanson supprimée';
                     
-                    window.location = "#/listechansons";
+                    document.location.reload(true);
                 })
                 .error(function (error) {
                     $scope.status = 'Echec de la suppression de la chanson dans la playlist';
@@ -171,12 +204,24 @@ angular.module('yoApp')
             dataFactory.supprimer(id)
                 .success(function (result) {
                     $scope.status = 'Playlist supprimée';
+                    $scope.itemSelected.playlist = null;
                     
                     document.location.reload(true);
                 }) .error(function (error) {
                     $scope.status = 'Echec de la suppression de la playlist';
                     
                     alert("Echec de la suppression de la playlist.");
+                });
+        }
+        
+        $scope.supprimerChanson = function(id) {
+            chansonFactory.supprimer(id)
+                .success(function (result) {
+                    $scope.status = 'Chanson supprimée';
+                    
+                    document.location.reload(true);
+                }) .error(function (error) {
+                    $scope.status = 'Echec de la suppression de la chanson';
                 });
         }
         /*********************************************************************/

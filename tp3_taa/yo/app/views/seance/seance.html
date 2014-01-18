@@ -1,4 +1,12 @@
 
+<script type="text/javascript">
+    var authentificated = localStorage['authentificated'];
+
+    if ((authentificated === undefined) || (authentificated === "false"))  {
+        document.location.href = "#/login"
+    }
+</script>
+
 <div class="button-wrapper">
     <a href="#/seances/add" class="a-btn">
     <span class="a-btn-text">+</span>
@@ -49,7 +57,7 @@
                     <span>
                         le date
                         <span class="right">
-                            <a ng-click="supprimer(seance.id)" class="left button-figcaption">Supprimer</a>
+                            <a href="" ng-click="supprimer(seance.id)" class="left button-figcaption">Supprimer</a>
                             <a href="#/seances/edit/{{seance.id}}">Modifier</a>
                         </span>
                     </span>

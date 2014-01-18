@@ -96,7 +96,7 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 		transaction.commit();
 	}
 	
-	@POST @Path("ajouterChanson/{id}/{chanson}")
+	@POST @Path("ajouterChanson/{id}/{idChanson}")
 	public void ajouterChanson(@PathParam("id") long id, @PathParam("idChanson") long idChanson) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
@@ -104,21 +104,21 @@ public class ListeChansonServiceImpl implements ListeChansonService {
 		ChansonService chansonService = new ChansonServiceImpl();
 		
 		ListeChanson listeChanson = getListeChanson(id);
-		Chanson chanson = chansonService.getChanson(id);
+		Chanson chanson = chansonService.getChanson(idChanson);
 		listeChanson.addChanson(chanson);
 		
 		transaction.commit();
 	}
 
-	@DELETE @Path("supprimerChanson/{id}/{chanson}")
-	public void supprimerChanson(@PathParam("id") long id, @PathParam("idChanson")long idChanson) {
+	@DELETE @Path("enleverChanson/{id}/{idChanson}")
+	public void enleverChanson(@PathParam("id") long id, @PathParam("idChanson")long idChanson) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 
 		ChansonService chansonService = new ChansonServiceImpl();
 		
 		ListeChanson listeChanson = getListeChanson(id);
-		Chanson chanson = chansonService.getChanson(id);
+		Chanson chanson = chansonService.getChanson(idChanson);
 		listeChanson.removeChanson(chanson);
 		
 		transaction.commit();

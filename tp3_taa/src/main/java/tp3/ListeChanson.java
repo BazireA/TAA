@@ -71,7 +71,6 @@ public class ListeChanson
 		return (Set<Seance>) this.seance;	
 	}
 	
-	@JsonIgnore
 	public Set<Chanson> getChanson() {
 		if(this.chanson == null)
 			this.chanson = new HashSet<Chanson>();

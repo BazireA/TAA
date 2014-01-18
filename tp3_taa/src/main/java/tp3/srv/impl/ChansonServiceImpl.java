@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import tp3.Chanson;
 import tp3.EntityMan;
+import tp3.ListeChanson;
 import tp3.srv.ChansonService;
 
 @Path("/chansons")
@@ -64,7 +65,7 @@ public class ChansonServiceImpl implements ChansonService {
 	@GET @Path("afficher/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Chanson getChanson(@PathParam("id") long id) {
-		Query query = entityManager.createQuery ("SELECT chansons FROM Chanson as chansons where seances.id=:p_id");
+		Query query = entityManager.createQuery ("SELECT chansons FROM Chanson as chansons where chansons.id=:p_id");
 		query.setParameter("p_id", id);
 		
 		return (Chanson)query.getSingleResult();
@@ -110,8 +111,13 @@ public class ChansonServiceImpl implements ChansonService {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		
-		Chanson seance = getChanson(id);
-		entityManager.remove(seance);
+		Chanson chanson = getChanson(id);
+		
+		for(ListeChanson playlist : chanson.getListeChanson()) {
+			playlist.removeChanson(chanson);
+		}
+		
+		entityManager.remove(chanson);
 		
 		transaction.commit();
 	}

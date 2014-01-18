@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,7 +21,7 @@ import tp3.Personne;
 import tp3.srv.PersonneService;
 
 @Path("/personnes")
-public class PersonneServiceImpl implements PersonneService{
+public class PersonneServiceImpl implements PersonneService {
 
 	private EntityManager entityManager;
 	
@@ -45,11 +46,11 @@ public class PersonneServiceImpl implements PersonneService{
 		transaction.begin();
 		
 		Personne personne = new Personne();
-		entityManager.persist(personne);
 		personne.setNom(nom);
 		personne.setPrenom(prenom);
 		personne.setAdresseMail(email);
 		personne.setMotDePasse(motDePasse);
+		entityManager.persist(personne);
 		
 		transaction.commit();
 		
@@ -79,6 +80,23 @@ public class PersonneServiceImpl implements PersonneService{
 		Query query = entityManager.createQuery ("SELECT personnes FROM Personne as personnes");
 		
 		return query.getResultList();
+	}
+	
+	@GET @Path("login/{login}/{motDePasse}")
+	public boolean login(@PathParam("login") String login, @PathParam("motDePasse") String motDePasse) {
+		Query query = entityManager.createQuery ("SELECT personnes FROM Personne as personnes where personnes.adresseMail=:p_login and personnes.motDePasse=:p_password");
+		query.setParameter("p_login", login);
+		query.setParameter("p_password", motDePasse);
+		boolean result;
+		
+		try {
+			result = (query.getSingleResult() != null);
+		}
+		catch(NoResultException e) {
+			result = false;
+		}
+		
+		return result;
 	}
 	/******************************************************************/
 

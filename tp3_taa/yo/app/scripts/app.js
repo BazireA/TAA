@@ -76,3 +76,14 @@ function initialiserParametreString(valeur) {
     
     return result;
 }
+
+
+function contains(element, array) {
+    for(var index in array) {
+        if (element == array[index].id) {
+          return true;
+        }
+    }
+    
+    return false;
+}

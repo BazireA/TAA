@@ -1,12 +1,203 @@
 
-<div class="button-wrapper">
-    <a href="#/listechansons/add" class="a-btn">
-    <span class="a-btn-text">+</span>
-    <span class="a-btn-slide-text">Ajouter une playlist</span>
-    </a>
-</div>
+<script type="text/javascript">
+    var authentificated = localStorage['authentificated'];
 
-<header class="codrops-header">
-  <h1>Playlists {{playlist}}</h1>
-  <h2>Status : {{status}}</h2>
-</header>
+    if ((authentificated === undefined) || (authentificated === "false"))  {
+        document.location.href = "#/login"
+    }
+</script>
+
+<div ng-controller="PlaylistController" ng-init="getPlaylists()">
+    <header class="codrops-header">
+        <h1>Playlists</h1>
+        <h2>Status : {{status}}</h2>
+    </header>
+    
+    <div class="black-text">
+        <div class="col-lg-6">
+            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#create-playlist-dialog">
+                Creer
+            </button>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="playlist in playlists" ng-click="setPlaylistSelected(playlist)">
+                    {{playlist.nom}}
+                    <span class="badge">{{playlist.chanson.length}}</span>
+                    <div class="pull-right margin-right-small">
+                        <button class="btn btn-danger btn-xs" ng-click="supprimer(playlist.id)">
+                            <span id="user-menu" class="glyphicon glyphicon-remove"></span>
+                            Supprimer
+                        </button>
+                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#edit-playlist-dialog" ng-click="initialiserChamps(playlist.id)">
+                            <span id="user-menu" class="glyphicon glyphicon-edit"></span>
+                            Modifier
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-6" ng-show="itemSelected.playlist">
+            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#create-song-dialog">
+                Creer
+            </button>
+            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#add-song-dialog" ng-click="getChansons()">
+                <span id="user-menu" class="glyphicon glyphicon-plus"></span>
+                Ajouter
+            </button>
+            <button class="btn btn-success btn-sm" data-toggle="modal" ng-click="enleverChanson()">
+                <span id="user-menu" class="glyphicon glyphicon-minus"></span>
+                Enlever
+            </button>
+            <ul class="list-group" ng-model="itemSelected.playlist">
+                <li class="list-group-item" ng-repeat="chanson in itemSelected.playlist.chanson" ng-click="setChansonSelected(chanson)">
+                    {{chanson.nom}}
+                    <div class="pull-right">
+                        <button class="btn btn-danger btn-xs" ng-click="supprimerChanson(chanson.id)">
+                            <span id="user-menu" class="glyphicon glyphicon-remove"></span>
+                            Supprimer
+                        </button>
+                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#edit-song-dialog" ng-controller="ChansonController" ng-click="initialiserChamps(chanson.id)">
+                            <span id="user-menu" class="glyphicon glyphicon-edit"></span>
+                            Modifier
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        
+        
+        <!-- Modal -->
+        <div id="create-playlist-dialog" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cr&eacute;ation d'une playlist</h4>
+              </div>
+              <div class="modal-body">
+                Nom : <input class="form-control width-inherit display-inline" ng-model="name" />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" ng-click="creer()">Cr&eacute;er</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
+        
+        <!-- Modal -->
+        <div id="edit-playlist-dialog" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Modification d'une playlist</h4>
+              </div>
+              <div class="modal-body">
+                Nom : <input class="form-control width-inherit display-inline" ng-model="name" />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" ng-click="modifier()">Modifer</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
+        
+        <!-- Modal -->
+        <div id="create-song-dialog"
+                tabindex="-1"
+                class="modal fade"
+                role="dialog"
+                aria-labelledby="myModalLabel"
+                aria-hidden="true"
+                ng-controller="ChansonController">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cr&eacute;ation d'une chanson</h4>
+              </div>
+              <div class="modal-body">
+                <div>
+                    Titre : <input class="form-control width-inherit display-inline" ng-model="name" />
+                </div>
+                <div>
+                    Durée : <input type="number" min="0" max="3600" maxlength="4" class="form-control width-inherit display-inline" ng-model="duration" />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" ng-click="creer()">Cr&eacute;er</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
+        
+        <!-- Modal -->
+        <div id="edit-song-dialog"
+                tabindex="-1"
+                class="modal fade"
+                role="dialog"
+                aria-labelledby="myModalLabel"
+                aria-hidden="true"
+                ng-controller="ChansonController">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Modification d'une chanson</h4>
+              </div>
+              <div class="modal-body">
+                <div>
+                    Titre : <input class="form-control width-inherit display-inline" ng-model="name" />
+                </div>
+                <div>
+                    Durée : <input type="number" min="0" max="3600" maxlength="4" class="form-control width-inherit display-inline" ng-model="duration" />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" ng-click="modifier()">Modifier</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
+        
+        <!-- Modal -->
+        <div id="add-song-dialog"
+                tabindex="-1"
+                class="modal fade"
+                role="dialog"
+                aria-labelledby="myModalLabel"
+                aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Ajout d'une chanson &agrave; la playlist</h4>
+              </div>
+              <div class="modal-body">
+                Chanson :
+                <select class="form-control input-lg width-inherit display-inline"
+                    ng-model="itemSelected.chansonToAdd"
+                    ng-options="chanson.id as chanson.nom for chanson in chansons">
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" ng-click="ajouterChanson()">Ajouter</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div>
